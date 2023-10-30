@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Big_Tile">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/gilroy_black</item>
+        <item name="lineHeight">43dp</item>
+    </style>
+    <style name="Info_Suggest">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#676767</item>
+        <item name="fontFamily">@font/gilroy_regular</item>
+        <item name="lineHeight">15sp</item>
+    </style>
+</resources>
