@@ -13,6 +13,21 @@
         android:theme="@style/Theme.TPROM"
         tools:targetApi="31">
         <activity
+            android:name=".ForgotPassword_Change"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword_Confirmation"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Register_Confirmation"
+            android:exported="false" />
+        <activity
+            android:name=".Register"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
