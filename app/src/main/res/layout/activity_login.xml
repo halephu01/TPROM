@@ -10,81 +10,90 @@
     <TextView
         android:id="@+id/welcome_back"
         style="@style/Big_Tile"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingLeft="32dp"
-        android:paddingTop="63dp"
         android:text="Welcome \nBack!\n"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="@id/layout_userinput"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/username"
+        app:layout_constraintBottom_toTopOf="@id/bottomtext"
+        app:layout_constraintVertical_bias="0.1"
         />
 
-    <EditText
-        android:id="@+id/username"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_userinput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:background="@drawable/login_rectangle"
-        android:drawableStart="@drawable/icon_user01"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/gilroy_medium"
-        android:hint="Username or Email"
-        android:padding="10dp"
-        android:textColorHint="@color/hint_color"
+        app:layout_constraintTop_toBottomOf="@id/welcome_back"
+        app:layout_constraintBottom_toTopOf="@id/bottomtext"
+        app:layout_constraintVertical_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_back"
-        app:layout_constraintBottom_toTopOf="@id/password"
-        app:layout_constraintVertical_weight="1" />
+        >
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/login_rectangle"
-        android:drawableStart="@drawable/icon_lock01"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/gilroy_medium"
-        android:hint="Password"
-        android:padding="10dp"
-        android:textColorHint="@color/hint_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintBottom_toTopOf="@id/forgot_password"
-        />
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/shape_rectangle_login"
+            android:drawableStart="@drawable/icon_user01"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:hint="Username or Email"
+            android:padding="10dp"
+            android:textColorHint="@color/hint_color"
+            app:layout_constraintBottom_toTopOf="@id/password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layout_userinput" />
 
-    <TextView
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/gilroy_medium"
-        android:text="Forgot Password?"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/blue2"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/password"
-        app:layout_constraintBottom_toTopOf="@id/signin_layout"
-        />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_rectangle_login"
+            android:drawableStart="@drawable/icon_lock01"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:hint="Password"
+            android:padding="10dp"
+            android:textColorHint="@color/hint_color"
+            app:layout_constraintBottom_toTopOf="@id/forgot_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/gilroy_bold"
+            android:text="Forgot Password?"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/blue2"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="@id/password"
+            app:layout_constraintTop_toBottomOf="@id/password" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
-        android:id="@+id/signin_layout"
+        android:id="@+id/layout_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@id/password"
-        app:layout_constraintStart_toStartOf="@id/password"
-        app:layout_constraintTop_toBottomOf="@id/forgot_password"
-        app:layout_constraintBottom_toTopOf="@id/signin_with"
-        >
+        app:layout_constraintEnd_toEndOf="@id/layout_userinput"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/layout_userinput"
+        app:layout_constraintTop_toBottomOf="@+id/layout_userinput"
+        app:layout_constraintBottom_toTopOf="@id/bottomtext"
+        app:layout_constraintVertical_bias="0.1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,40 +111,48 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/login_circle"
+            android:background="@drawable/shape_circle_login"
+            android:clickable="true"
             android:drawableStart="@drawable/icon_arrow_left"
-            android:paddingLeft="16dp"
-            android:clickable="true"/>
+            android:paddingLeft="16dp" />
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/signin_with"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_signin_google"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/gilroy_medium"
-        android:text="Sign in with"
-        app:layout_constraintBottom_toTopOf="@id/google_signin"
-        app:layout_constraintTop_toBottomOf="@id/signin_layout"
-        app:layout_constraintEnd_toEndOf="@id/google_signin"
-        app:layout_constraintStart_toStartOf="@id/google_signin"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/layout_signin"
+        app:layout_constraintBottom_toTopOf="@id/bottomtext"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/google_signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/icon_google_circle"
-        android:drawableLeft="@drawable/icon_google"
-        android:paddingLeft="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signin_layout"
-        app:layout_constraintBottom_toTopOf="@+id/bottomtext"
-        android:clickable="true"
-        />
+        <TextView
+            android:id="@+id/signin_with"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:text="Sign in with"
+            app:layout_constraintBottom_toTopOf="@id/google_signin"
+            app:layout_constraintEnd_toEndOf="@id/google_signin"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="@id/google_signin"
+            app:layout_constraintTop_toTopOf="@id/layout_signin_google" />
 
+        <TextView
+            android:id="@+id/google_signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/icon_google_circle"
+            android:clickable="true"
+            android:drawableLeft="@drawable/icon_google"
+            android:paddingLeft="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signin_with" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/bottomtext"
@@ -147,9 +164,11 @@
         android:textAlignment="center"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/google_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
