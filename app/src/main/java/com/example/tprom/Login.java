@@ -53,6 +53,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+
         mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
