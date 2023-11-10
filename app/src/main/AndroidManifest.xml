@@ -13,32 +13,26 @@
         android:theme="@style/Theme.TPROM"
         tools:targetApi="31">
         <activity
-            android:name=".ForgotPassword_Change"
-            android:exported="false" />
+            android:name=".MainActivity"/>
         <activity
-            android:name=".ForgotPassword_Confirmation"
-            android:exported="false" />
+            android:name=".ForgotPassword_Change" />
         <activity
-            android:name=".ForgotPassword"
-            android:exported="false" />
+            android:name=".ForgotPassword_Confirmation" />
         <activity
-            android:name=".Register_Confirmation"
-            android:exported="false" />
+            android:name=".ForgotPassword" />
         <activity
-            android:name=".Register"
-            android:exported="false" />
+            android:name=".Register_Confirmation" />
+        <activity
+            android:name=".Register"/>
         <activity
             android:name=".Login"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
+
 
 </manifest>

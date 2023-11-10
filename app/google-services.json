@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "867911741680",
+    "firebase_url": "https://tprom-ac5ce-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tprom-ac5ce",
+    "storage_bucket": "tprom-ac5ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867911741680:android:40a5c141b944650dbb1235",
+        "android_client_info": {
+          "package_name": "com.example.tprom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKdPnDsXWfZZ1xV2h4h3JZInZFTdwonJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
