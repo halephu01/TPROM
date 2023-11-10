@@ -34,33 +34,22 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //đăng nhập với username và passowrd
         mAuth= FirebaseAuth.getInstance();
 
         ed_username=findViewById(R.id.ed_username);
         ed_password=findViewById(R.id.ed_password);
 
         TextView tv_login = findViewById(R.id.tv_login);
-        TextView tv_signGoogle = findViewById(R.id.tv_login_google);
         TextView tv_register = findViewById(R.id.tv_register);
 
         tv_login.setOnClickListener(v -> login());
 
         tv_register.setOnClickListener(v -> register());
 
-        /*ed_password.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    int drawableEnd = 2;
-                    if (event.getRawX() >= (ed_Password.getRight() - ed_Password.getCompoundDrawables()[drawableEnd].getBounds().width())) {
-
-                    }
-                }
-                return false;
-            }
-        });*/
-
         //đăng nhập bằng google
+        TextView tv_signGoogle = findViewById(R.id.tv_login_google);
+
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         signinClient = GoogleSignIn.getClient(this,signInOptions);
 
@@ -75,7 +64,13 @@ public class Login extends AppCompatActivity {
                 signIn();
             }
         });
+
+        //quên mật khẩu
+        TextView tv_forgotPassword=findViewById(R.id.tv_login_forgotpassword);
+        tv_forgotPassword.setOnClickListener(v-> forgotPassword());
     }
+
+    //đăng nhập bằng google
     void signIn(){
         Intent signInIntent = signinClient.getSignInIntent();
         startActivityForResult(signInIntent,1000);
@@ -96,19 +91,20 @@ public class Login extends AppCompatActivity {
         }
 
     }
-
+    //hàm mở class Main khi đăng nhập bằng google
     void loginWithGoogle(){
         finish();
         Intent intent=new Intent(Login.this,MainActivity.class);
         startActivity(intent);
     }
 
-
+    //hàm để mở class register
     private void register(){
-        Intent i = new Intent(Login.this,Register.class);
-        startActivity(i);
+        Intent intent = new Intent(Login.this,Register.class);
+        startActivity(intent);
     }
 
+    //hàm đăng nhập với username và password
     private void login(){
         String username, password;
         username=ed_username.getText().toString();
@@ -124,7 +120,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-
         mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
@@ -134,6 +129,12 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Đăng nhập không thành công",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    //hàm mở class quên mật khẩu
+    private void forgotPassword(){
+        Intent intent = new Intent(Login.this, ForgotPassword.class);
+        startActivity(intent);
     }
 
 }
