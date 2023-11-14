@@ -3,7 +3,6 @@ package com.example.tprom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,7 @@ public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInOptions signInOptions;
     private GoogleSignInClient signinClient;
+
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,35 +31,29 @@ public class Register extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
 
-        ed_username=findViewById(R.id.ed_username);
-        ed_email=findViewById(R.id.ed_email);
-        ed_password=findViewById(R.id.ed_password);
-        ed_password_confirm=findViewById(R.id.ed_password_confirm);
+        ed_username=findViewById(R.id.rg_teit_user);
+        ed_email=findViewById(R.id.rg_teit_validEmail);
+        ed_password=findViewById(R.id.rg_teit_pw);
+        ed_password_confirm=findViewById(R.id.rg_teit_pwconfirm);
 
         TextView tv_next = findViewById(R.id.tv_next);
         TextView tv_signin = findViewById(R.id.tv_signin);
 
         tv_next.setOnClickListener(v -> next());
-
         tv_signin.setOnClickListener(v -> signin());
 
         //đăng nhập bằng google
-        TextView tv_signinGoogle = findViewById(R.id.register_signin_google);
+        TextView tv_signinGoogle = findViewById(R.id.tv_google);
 
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         signinClient = GoogleSignIn.getClient(this,signInOptions);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if(acct!=null){
+        if(acct!=null) {
             loginWithGoogle();
         }
 
-        tv_signinGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        tv_signinGoogle.setOnClickListener(v -> signIn());
     }
 
     //đăng nhập bằng google
@@ -89,7 +83,7 @@ public class Register extends AppCompatActivity {
         Intent intent=new Intent(Register.this,MainActivity.class);
         startActivity(intent);
     }
-
+    //mở class Login khi đăng kí thành công
     private void next(){
         String username, email, password, password_confirm;
         username=ed_username.getText().toString();
@@ -129,8 +123,20 @@ public class Register extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Tài khoản tạo thành công!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Register.this, Login.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Tạo tài khoản thất bại.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
+    //mở class Login khi bấm button sign in
     private void signin(){
         Intent i = new Intent(Register.this, Login.class);
         startActivity(i);

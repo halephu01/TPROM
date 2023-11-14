@@ -28,7 +28,6 @@ public class Login extends AppCompatActivity {
     private GoogleSignInOptions signInOptions;
     int RC_SIGN_IN = 20;
 
-
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +36,8 @@ public class Login extends AppCompatActivity {
         //đăng nhập với username và passowrd
         mAuth= FirebaseAuth.getInstance();
 
-        ed_username=findViewById(R.id.ed_username);
-        ed_password=findViewById(R.id.ed_password);
+        ed_username=findViewById(R.id.tiet_login_user);
+        ed_password=findViewById(R.id.tiet_login_pw);
 
         TextView tv_login = findViewById(R.id.tv_login);
         TextView tv_register = findViewById(R.id.tv_register);
@@ -66,7 +65,7 @@ public class Login extends AppCompatActivity {
         });
 
         //quên mật khẩu
-        TextView tv_forgotPassword=findViewById(R.id.tv_login_forgotpassword);
+        TextView tv_forgotPassword=findViewById(R.id.login_forgotpassword);
         tv_forgotPassword.setOnClickListener(v-> forgotPassword());
     }
 

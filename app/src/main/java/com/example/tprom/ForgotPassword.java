@@ -38,7 +38,7 @@ public class ForgotPassword extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(ForgotPassword.this,"Reset password thành công",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ForgotPassword.this, ForgotPassword_Confirmation.class);
+                                    Intent intent = new Intent(ForgotPassword.this, ForgotPassword_Reset.class);
                                     startActivity(intent);
                                 }
                             }

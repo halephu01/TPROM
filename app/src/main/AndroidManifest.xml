@@ -15,13 +15,9 @@
         <activity
             android:name=".MainActivity"/>
         <activity
-            android:name=".ForgotPassword_Change" />
-        <activity
-            android:name=".ForgotPassword_Confirmation" />
+            android:name=".ForgotPassword_Reset" />
         <activity
             android:name=".ForgotPassword" />
-        <activity
-            android:name=".Register_Confirmation" />
         <activity
             android:name=".Register"/>
         <activity
