@@ -31,10 +31,10 @@ public class Register extends AppCompatActivity {
 
         mAuth= FirebaseAuth.getInstance();
 
-        ed_username=findViewById(R.id.ed_username);
-        ed_email=findViewById(R.id.ed_email);
-        ed_password=findViewById(R.id.ed_password);
-        ed_password_confirm=findViewById(R.id.ed_password_confirm);
+        ed_username=findViewById(R.id.rg_teit_user);
+        ed_email=findViewById(R.id.rg_teit_validEmail);
+        ed_password=findViewById(R.id.rg_teit_pw);
+        ed_password_confirm=findViewById(R.id.rg_teit_pwconfirm);
 
         TextView tv_next = findViewById(R.id.tv_next);
         TextView tv_signin = findViewById(R.id.tv_signin);
@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
         tv_signin.setOnClickListener(v -> signin());
 
         //đăng nhập bằng google
-        TextView tv_signinGoogle = findViewById(R.id.register_signin_google);
+        TextView tv_signinGoogle = findViewById(R.id.tv_google);
 
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         signinClient = GoogleSignIn.getClient(this,signInOptions);
@@ -116,13 +116,13 @@ public class Register extends AppCompatActivity {
             return;
         }
 
-        /*mAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
+        mAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(this,"Tài khoản tạo thành công!",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Register.this, Login.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
         mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
