@@ -2,11 +2,17 @@ package com.example.tprom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+//import com.example.tprom.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -17,16 +23,22 @@ import com.google.android.gms.tasks.Task;
 public class MainActivity extends AppCompatActivity {
     private GoogleSignInOptions signInOptions;
     private GoogleSignInClient signInClient;
-
+//    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //for layouts
+//        binding=ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        loadFragment(new ProfileFragment());
+//        binding.mainNavigationMenu.setOnItemSelectedListener(this::onNavigationItemSelected);
 
-        Button btSignout = findViewById(R.id.bt_logout);
+        setContentView(R.layout.fragment_profile);
+
+        TextView btSignout = findViewById(R.id.profile_logout);
 
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        signInClient = GoogleSignIn.getClient(this,signInOptions);
+       signInClient = GoogleSignIn.getClient(this,signInOptions);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
@@ -47,4 +59,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+/*
+    void loadFragment(Fragment fragment){
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_fragment,fragment);
+        fragmentTransaction.commit();
+    }
+
+    private boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_home:
+                loadFragment(new HomeFragment());
+                break;
+            case R.id.main_calendar:
+                loadFragment(new CalendarFragment());
+                break;
+            case R.id.main_notification:
+                loadFragment(new NotificationFragment());
+                break;
+            case R.id.main_profile:
+                loadFragment(new ProfileFragment());
+                break;
+        }
+        return true;
+    }
+
+ */
 }

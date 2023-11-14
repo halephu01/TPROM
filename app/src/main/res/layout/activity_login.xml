@@ -42,7 +42,7 @@
             android:fontFamily="@font/gilroy_medium"
             android:drawableStart="@drawable/icon_user01"
             android:drawablePadding="10dp"
-            android:hint="Username or Email"
+            android:hint="Email"
             android:singleLine="true"
             android:textColorHint="@color/hint_color"
             />
