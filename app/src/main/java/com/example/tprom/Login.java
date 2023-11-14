@@ -28,7 +28,6 @@ public class Login extends AppCompatActivity {
     private GoogleSignInOptions signInOptions;
     int RC_SIGN_IN = 20;
 
-
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
