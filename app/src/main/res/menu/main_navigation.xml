@@ -10,6 +10,10 @@
         android:icon="@drawable/icon_calendar_main"
         android:title="Calendar"/>
     <item
+        android:id="@+id/main_group"
+        android:icon="@drawable/icon_group"
+        android:title="Group"/>
+    <item
         android:id="@+id/main_notification"
         android:icon="@drawable/icon_bell_main"
         android:title="Notification"/>
