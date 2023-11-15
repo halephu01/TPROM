@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroy_medium"
-            android:hint="Username or Email"
+            android:hint="Username"
             android:singleLine="true"
             android:padding="15dp"
             android:drawableStart="@drawable/icon_user01"

@@ -18,6 +18,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /** @noinspection ALL*/
@@ -26,6 +32,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient signinClient;
     private GoogleSignInOptions signInOptions;
+    private DatabaseReference dataB;
     int RC_SIGN_IN = 20;
 
     @Override
@@ -67,6 +74,8 @@ public class Login extends AppCompatActivity {
         //quên mật khẩu
         TextView tv_forgotPassword=findViewById(R.id.login_forgotpassword);
         tv_forgotPassword.setOnClickListener(v-> forgotPassword());
+
+        dataB = FirebaseDatabase.getInstance("https://tprom-ac5ce-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
     }
 
     //đăng nhập bằng google
@@ -134,6 +143,48 @@ public class Login extends AppCompatActivity {
     private void forgotPassword(){
         Intent intent = new Intent(Login.this, ForgotPassword.class);
         startActivity(intent);
+    }
+
+    private void signin() {
+        String email, password;
+        email = ed_username.getText().toString();
+        password = ed_password.getText().toString();
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Vui lòng nhập email và password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    // Fetch username based on email
+                    fetchUsernameByEmail(user.getEmail());
+                }
+            } else {
+                Toast.makeText(this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchUsernameByEmail(String email) {
+        DatabaseReference usersRef = dataB.child("users");
+
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String username = userSnapshot.child("username").getValue(String.class);
+                    Toast.makeText(Login.this, "Xin chào, " + username + "!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(Login.this, "Lỗi khi lấy dữ liệu từ server.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
