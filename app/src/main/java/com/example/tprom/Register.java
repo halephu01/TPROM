@@ -97,11 +97,6 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private boolean isValidGmail(String input) {
-        String gmailPattern = "[a-zA-Z0-9._-]+@gmail.com";
-        return input.matches(gmailPattern);
-    }
-
     //mở class Login khi bấm button sign in
     private void signin(){
         Intent i = new Intent(Register.this, Login.class);
