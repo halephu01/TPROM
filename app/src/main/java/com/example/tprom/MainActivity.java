@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_calendar:
                 loadFragment(new CalendarFragment());
                 break;
+            case R.id.main_group:
+                loadFragment(new GroupFragment());
+                break;
             case R.id.main_notification:
                 loadFragment(new NotificationFragment());
                 break;
