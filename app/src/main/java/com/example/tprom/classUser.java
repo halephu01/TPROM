@@ -1,17 +1,31 @@
 package com.example.tprom;
 
-public class User {
+import android.media.Image;
+
+public class classUser {
+    private int userId;
     private String username;
     private String email;
     private String password;
+    private Image avatarUser;
 
-    public User() {
+    public classUser() {
     }
 
-    public User(String username, String email, String password) {
+    public classUser(int userId, String username, String email, String password, Image avatarUser) {
+        this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.avatarUser=avatarUser;
+    }
+
+    public void setUserId(int userId){
+        this.userId=userId;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getUsername() {
@@ -19,6 +33,7 @@ public class User {
     }
 
     public void setUsername(String username) {
+
         this.username = username;
     }
 
@@ -36,5 +51,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setAvatarUser(Image avatarUser) {
+        this.avatarUser = avatarUser;
+    }
+
+    public Image getAvatarUser() {
+        return avatarUser;
     }
 }
