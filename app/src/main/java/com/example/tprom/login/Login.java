@@ -1,4 +1,4 @@
-package com.example.tprom;
+package com.example.tprom.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tprom.MainActivity;
+import com.example.tprom.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -102,7 +104,7 @@ public class Login extends AppCompatActivity {
     //hàm mở class Main khi đăng nhập bằng google
     void loginWithGoogle(){
         finish();
-        Intent intent=new Intent(Login.this,MainActivity.class);
+        Intent intent=new Intent(Login.this, MainActivity.class);
         startActivity(intent);
     }
 

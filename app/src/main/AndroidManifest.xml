@@ -15,13 +15,13 @@
         <activity
             android:name=".MainActivity"/>
         <activity
-            android:name=".ForgotPassword_Reset" />
+            android:name=".login.ForgotPassword_Reset" />
         <activity
-            android:name=".ForgotPassword" />
+            android:name=".login.ForgotPassword" />
         <activity
-            android:name=".Register"/>
+            android:name=".login.Register"/>
         <activity
-            android:name=".Login"
+            android:name=".login.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.tprom;
+package com.example.tprom.mainfragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.tprom.R;
 
 public class HomeFragment extends Fragment {
 

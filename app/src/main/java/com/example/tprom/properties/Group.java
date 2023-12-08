@@ -1,15 +1,15 @@
-package com.example.tprom;
+package com.example.tprom.properties;
 
-public class classGroup {
+public class Group {
     private int groupId;
     private String groupName;
     private String describeGroup;
 
-    classGroup(){
+    Group(){
 
     }
 
-    classGroup(int groupId, String groupName, String describeGroup){
+    Group(int groupId, String groupName, String describeGroup){
         this.groupId=groupId;
         this.groupName=groupName;
         this.describeGroup=describeGroup;

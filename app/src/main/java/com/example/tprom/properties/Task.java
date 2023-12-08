@@ -1,8 +1,8 @@
-package com.example.tprom;
+package com.example.tprom.properties;
 
 import java.util.Date;
 
-public class classTask {
+public class Task {
     private int taskId, groupId,userid;
     private String nameTask;
     private String describeTask;
@@ -11,11 +11,11 @@ public class classTask {
     private float rate;
     private Boolean statusTask;
 
-    classTask(){
+    Task(){
 
     }
 
-    classTask(int taskId, int userid, int groupId, String nameTask, String describeTask, String classify, Date deadline, boolean statusTask){
+    Task(int taskId, int userid, int groupId, String nameTask, String describeTask, String classify, Date deadline, boolean statusTask){
         this.taskId=taskId;
         this.userid=userid;
         this.groupId=groupId;

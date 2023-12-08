@@ -1,18 +1,18 @@
-package com.example.tprom;
+package com.example.tprom.properties;
 
 import android.media.Image;
 
-public class classUser {
+public class User {
     private int userId;
     private String username;
     private String email;
     private String password;
     private Image avatarUser;
 
-    public classUser() {
+    public User() {
     }
 
-    public classUser(int userId, String username, String email, String password, Image avatarUser) {
+    public User(int userId, String username, String email, String password, Image avatarUser) {
         this.userId = userId;
         this.username = username;
         this.email = email;

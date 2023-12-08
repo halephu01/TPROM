@@ -1,10 +1,12 @@
-package com.example.tprom;
+package com.example.tprom.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tprom.R;
 
 public class ForgotPassword_Reset extends AppCompatActivity {
     TextView tvBack,tvNext;
