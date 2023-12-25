@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.tprom.group.GroupFragment;
+import com.example.tprom.notification.NotificationFragment;
+
 public class SlidePageAdapter extends FragmentStateAdapter {
     public SlidePageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -17,19 +20,16 @@ public class SlidePageAdapter extends FragmentStateAdapter {
             case 1:
                 return new CalendarFragment();
             case 2:
-                return new GroupFragment();
-            case 3:
                 return new NotificationFragment();
-            case 4:
+            case 3:
                 return new ProfileFragment();
-
             default:
-                return new HomeFragment();
+                return new GroupFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 4;
     }
 }

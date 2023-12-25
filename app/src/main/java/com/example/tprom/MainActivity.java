@@ -14,9 +14,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.tprom.databinding.ActivityMainBinding;
 import com.example.tprom.login.Login;
 import com.example.tprom.mainfragment.CalendarFragment;
-import com.example.tprom.mainfragment.GroupFragment;
-import com.example.tprom.mainfragment.HomeFragment;
-import com.example.tprom.mainfragment.NotificationFragment;
+import com.example.tprom.group.GroupFragment;
+import com.example.tprom.notification.NotificationFragment;
 import com.example.tprom.mainfragment.ProfileFragment;
 import com.example.tprom.mainfragment.SlidePageAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -47,18 +46,15 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 switch(position){
                     case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.main_home).setChecked(true);
+                        bottomNavigationView.getMenu().findItem(R.id.main_group).setChecked(true);
                         break;
                     case 1:
                         bottomNavigationView.getMenu().findItem(R.id.main_calendar).setChecked(true);
                         break;
                     case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.main_group).setChecked(true);
-                        break;
-                    case 3:
                         bottomNavigationView.getMenu().findItem(R.id.main_notification).setChecked(true);
                         break;
-                    case 4:
+                    case 3:
                         bottomNavigationView.getMenu().findItem(R.id.main_profile).setChecked(true);
                         break;
                 }
@@ -68,20 +64,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-                    case R.id.main_home:
+                    case R.id.main_group:
                         viewPager2.setCurrentItem(0);
                         break;
                     case R.id.main_calendar:
                         viewPager2.setCurrentItem(1);
                         break;
-                    case R.id.main_group:
+                    case R.id.main_notification:
                         viewPager2.setCurrentItem(2);
                         break;
-                    case R.id.main_notification:
-                        viewPager2.setCurrentItem(3);
-                        break;
                     case R.id.main_profile:
-                        viewPager2.setCurrentItem(4);
+                        viewPager2.setCurrentItem(3);
                         break;
                 }
                 return true;
@@ -126,14 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.main_home:
-                loadFragment(new HomeFragment());
+            case R.id.main_group:
+                loadFragment(new GroupFragment());
                 break;
             case R.id.main_calendar:
                 loadFragment(new CalendarFragment());
-                break;
-            case R.id.main_group:
-                loadFragment(new GroupFragment());
                 break;
             case R.id.main_notification:
                 loadFragment(new NotificationFragment());

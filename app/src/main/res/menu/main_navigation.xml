@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/main_home"
-        android:icon="@drawable/icon_home_main"
-        android:title="Home"
-        />
+        android:id="@+id/main_group"
+        android:icon="@drawable/icon_group"
+        android:title="Group"/>
     <item
         android:id="@+id/main_calendar"
         android:icon="@drawable/icon_calendar_main"
         android:title="Calendar"/>
-    <item
-        android:id="@+id/main_group"
-        android:icon="@drawable/icon_group"
-        android:title="Group"/>
     <item
         android:id="@+id/main_notification"
         android:icon="@drawable/icon_bell_main"
