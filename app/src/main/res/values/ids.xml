@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="notificationitem_tv_time" type="id" />
+    <item name="groupitem_name" type="id" />
+</resources>
