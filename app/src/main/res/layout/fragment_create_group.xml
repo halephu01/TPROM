@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    app:layoutDescription="@xml/fragment_create_group_scene"
+    android:background="@color/white"
+    android:id="@+id/fragement_create_group">
 
     <View
         android:id="@+id/group_avatar_chg"
         android:layout_width="90dp"
         android:layout_height="91dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/group_create"
         app:layout_constraintBottom_toTopOf="@id/team_name"
-        android:background="@drawable/groupcreate"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <TextView
         android:id="@+id/team_name"
         android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="@string/team_name"
-        app:layout_constraintTop_toBottomOf="@+id/group_avatar_chg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="23dp"
         android:layout_marginLeft="27dp"
-        android:textSize="15sp"
-        android:textColor="#000000"
-
+        android:layout_marginTop="23dp"
         android:gravity="center_horizontal|top"
-        />
+        android:text="@string/team_name"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/group_avatar_chg" />
 
     <EditText
         android:id="@+id/ed_teamname"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/shape_rectangle_login"
-        app:layout_constraintTop_toBottomOf="@+id/team_name"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/shape_rectangle_login"
+        android:paddingLeft="20dp"
+        android:textColor="#676767"
+        android:textSize="15sp"
+        android:hint="@string/enter_your_"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:textSize="15sp"
-        android:textColor="#676767"
-        android:text="@string/enter_your_"
-        android:paddingLeft="20dp"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/team_name" />
 
     <TextView
         android:id="@+id/description"
@@ -60,154 +61,153 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_teamname"
         tools:ignore="TextSizeCheck" />
+
     <EditText
         android:id="@+id/ed_description"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/shape_rectangle_login"
-        app:layout_constraintTop_toBottomOf="@+id/description"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:textSize="15sp"
-        android:textColor="#676767"
-        android:text="@string/describe_ab"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/shape_rectangle_login"
         android:gravity="left|top"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
-        />
+        android:hint="@string/describe_ab"
+        android:textColor="#676767"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
+
     <TextView
         android:id="@+id/role"
         android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="@string/role"
-        app:layout_constraintTop_toBottomOf="@+id/ed_description"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="11dp"
         android:layout_marginLeft="27dp"
-        android:textSize="15sp"
-        android:textColor="#000000"
+        android:layout_marginTop="11dp"
         android:gravity="left|top"
-        />
+        android:text="@string/role"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_description" />
 
     <GridView
         android:id="@+id/lv_role"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="40dp"
+        android:numColumns="3"
         app:layout_constraintEnd_toEndOf="@+id/ed_addrole"
-        app:layout_constraintStart_toStartOf="@+id/role"
-        app:layout_constraintTop_toBottomOf="@+id/role"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:numColumns="3"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="25dp"
-        />
+        app:layout_constraintStart_toStartOf="@+id/role"
+        app:layout_constraintTop_toBottomOf="@+id/role" />
+
     <EditText
         android:id="@+id/ed_addrole"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/shape_rectangle_login"
-        app:layout_constraintTop_toBottomOf="@+id/role"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:textSize="15sp"
-        android:textColor="#676767"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/shape_rectangle_login"
         android:gravity="left|top"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
-        />
+        android:textColor="#676767"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/role" />
+
     <TextView
         android:id="@+id/tv_addRole"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/role"
-        app:layout_constraintRight_toRightOf="parent"
-
-        app:layout_constraintStart_toEndOf="@+id/lv_role"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
+
+        android:layout_marginRight="15dp"
         android:drawableStart="@drawable/ic_add"
         app:layout_constraintLeft_toRightOf="@+id/ed_addrole"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="5dp"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lv_role"
+        app:layout_constraintTop_toBottomOf="@+id/role" />
+
     <TextView
         android:id="@+id/member"
         android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="@string/member"
-        app:layout_constraintTop_toBottomOf="@+id/ed_addrole"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="11dp"
         android:layout_marginLeft="27dp"
-        android:textSize="15sp"
-        android:textColor="#000000"
+        android:layout_marginTop="11dp"
         android:gravity="left|top"
-        />
+        android:text="@string/member"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_addrole" />
+
     <GridView
         android:id="@+id/lv_member"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="@+id/member"
-        app:layout_constraintTop_toBottomOf="@+id/member"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="40dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="@+id/ed_addmem"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/ed_addmem"
-        android:numColumns="3"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="25dp"
-        />
+        app:layout_constraintStart_toStartOf="@+id/member"
+        app:layout_constraintTop_toBottomOf="@+id/member" />
+
     <EditText
         android:id="@+id/ed_addmem"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/shape_rectangle_login"
-        app:layout_constraintTop_toBottomOf="@+id/member"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:textSize="15sp"
-        android:textColor="#676767"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/shape_rectangle_login"
         android:gravity="left|top"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
-        />
+        android:textColor="#676767"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/member" />
+
     <TextView
         android:id="@+id/tv_addMem"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/member"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/lv_member"
+        android:layout_marginRight="15dp"
         android:drawableStart="@drawable/ic_add"
         app:layout_constraintLeft_toRightOf="@+id/ed_addrole"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="5dp"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lv_member"
+        app:layout_constraintTop_toBottomOf="@+id/member" />
+
     <TextView
         android:id="@+id/create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ed_addmem"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="30dp"
-        android:text="@string/create"
-        android:textSize="18dp"
-        android:textColor="@color/white"
-        android:lineSpacingExtra="2sp"
-        android:translationY="-0.9sp"
-        android:gravity="center"
         android:background="@drawable/rectangle_3"
-        />
+        android:gravity="center"
+        android:lineSpacingExtra="2sp"
+        android:text="@string/create"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:translationY="-0.9sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_addmem" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>
 

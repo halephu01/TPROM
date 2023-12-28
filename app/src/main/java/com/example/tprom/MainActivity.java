@@ -1,6 +1,7 @@
 package com.example.tprom;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -18,6 +19,8 @@ import com.example.tprom.group.GroupFragment;
 import com.example.tprom.notification.NotificationFragment;
 import com.example.tprom.mainfragment.ProfileFragment;
 import com.example.tprom.mainfragment.SlidePageAdapter;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
     ActivityMainBinding binding;
+
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //for layouts
+
         viewPager2=findViewById(R.id.layout_fragment);
         SlidePageAdapter adapter =new SlidePageAdapter(this);
         viewPager2.setAdapter(adapter);
@@ -89,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
         //Button btSignout = findViewById(R.id.profile_logout);
 
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-//        signInClient = GoogleSignIn.getClient(this,signInOptions);
+        signInClient = GoogleSignIn.getClient(this,signInOptions);
 //
-//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 //
 //        btSignout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -101,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
     }
+
     void signOut(){
         signInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

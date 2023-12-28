@@ -1,6 +1,7 @@
 package com.example.tprom.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,13 +20,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 /** @noinspection ALL*/
@@ -58,7 +58,10 @@ public class Login extends AppCompatActivity {
         //đăng nhập bằng google
         TextView tv_signGoogle = findViewById(R.id.tv_login_google);
 
-        signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("YOUR_WEB_CLIENT_ID")
+                .requestEmail()
+                .build();
         signinClient = GoogleSignIn.getClient(this,signInOptions);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
@@ -78,6 +81,7 @@ public class Login extends AppCompatActivity {
         tv_forgotPassword.setOnClickListener(v-> forgotPassword());
 
         dataB = FirebaseDatabase.getInstance("https://tprom-ac5ce-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
+
     }
 
     //đăng nhập bằng google
@@ -87,25 +91,38 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-
             try {
-                task.getResult(ApiException.class);
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 loginWithGoogle();
             } catch (ApiException e) {
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
+
     //hàm mở class Main khi đăng nhập bằng google
     void loginWithGoogle(){
-        finish();
-        Intent intent=new Intent(Login.this, MainActivity.class);
-        startActivity(intent);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     //hàm để mở class register
@@ -117,6 +134,7 @@ public class Login extends AppCompatActivity {
     //hàm đăng nhập với username và password
     private void login(){
         String username, password;
+
         username=ed_username.getText().toString();
         password=ed_password.getText().toString();
 
@@ -133,6 +151,7 @@ public class Login extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
             }else{
@@ -145,48 +164,6 @@ public class Login extends AppCompatActivity {
     private void forgotPassword(){
         Intent intent = new Intent(Login.this, ForgotPassword.class);
         startActivity(intent);
-    }
-
-    private void signin() {
-        String email, password;
-        email = ed_username.getText().toString();
-        password = ed_password.getText().toString();
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Vui lòng nhập email và password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    // Fetch username based on email
-                    fetchUsernameByEmail(user.getEmail());
-                }
-            } else {
-                Toast.makeText(this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void fetchUsernameByEmail(String email) {
-        DatabaseReference usersRef = dataB.child("users");
-
-        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    String username = userSnapshot.child("username").getValue(String.class);
-                    Toast.makeText(Login.this, "Xin chào, " + username + "!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Login.this, "Lỗi khi lấy dữ liệu từ server.", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 }
