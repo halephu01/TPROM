@@ -2,4 +2,6 @@
 <resources>
     <item name="notificationitem_tv_time" type="id" />
     <item name="groupitem_name" type="id" />
+    <item name="groupdetail_cl_member" type="id" />
+    <item name="taskitem_rv_user" type="id" />
 </resources>

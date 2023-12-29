@@ -67,7 +67,7 @@
         android:id="@+id/groupitem_deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape4"
+        android:background="@drawable/shape_4"
         android:text="4 Deadlines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,6 +79,40 @@
         android:visibility="gone"
         android:fontFamily="@font/gilroy_medium"
         android:textSize="14dp"/>
-
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/groupitem_ll_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/groupitem_decline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decline"
+            android:textSize="18sp"
+            android:paddingHorizontal="18sp"
+            android:paddingVertical="8dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_4"
+            />
+    <TextView
+        android:id="@+id/groupitem_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        android:textSize="18sp"
+        android:paddingHorizontal="18sp"
+        android:paddingVertical="8dp"
+        android:fontFamily="@font/gilroy_medium"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_4"
+        android:layout_marginStart="10dp"
+/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

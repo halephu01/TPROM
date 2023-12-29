@@ -7,12 +7,12 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private Image avatarUser;
+    private int avatarUser;
 
     public User() {
     }
 
-    public User(int userId, String username, String email, String password, Image avatarUser) {
+    public User(int userId, String username, String email, String password, int avatarUser) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -53,11 +53,11 @@ public class User {
         this.password = password;
     }
 
-    public void setAvatarUser(Image avatarUser) {
+    public void setAvatarUser(int avatarUser) {
         this.avatarUser = avatarUser;
     }
 
-    public Image getAvatarUser() {
+    public int getAvatarUser() {
         return avatarUser;
     }
 }

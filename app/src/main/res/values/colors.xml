@@ -9,4 +9,6 @@
     <color name="blue5">#ADD7F6</color>
     <color name="hint_color">#626262</color>
     <color name="icon_color">#303030</color>
+    <color name="text_normal">#303030</color>
+    <color name="background_normal">#F6F6F6</color>
 </resources>

@@ -26,7 +26,7 @@
             android:id="@+id/group_tv_request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape4"
+            android:background="@drawable/shape_4"
             android:text="4 Request"
             android:textSize="16sp"
             android:paddingHorizontal="10sp"
