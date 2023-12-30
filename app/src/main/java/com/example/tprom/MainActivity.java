@@ -1,5 +1,6 @@
 package com.example.tprom;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    @SuppressLint("NonConstantResourceId")
     private boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_group:
