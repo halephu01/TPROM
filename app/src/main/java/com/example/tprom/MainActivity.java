@@ -14,7 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.tprom.databinding.ActivityMainBinding;
 import com.example.tprom.login.Login;
 import com.example.tprom.mainfragment.CalendarFragment;
-import com.example.tprom.group.GroupFragment;
+import com.example.tprom.group.mainfragment.GroupFragment;
 import com.example.tprom.notification.NotificationFragment;
 import com.example.tprom.mainfragment.ProfileFragment;
 import com.example.tprom.mainfragment.SlidePageAdapter;

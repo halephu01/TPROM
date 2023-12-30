@@ -1,4 +1,4 @@
-package com.example.tprom.group.groupdetails;
+package com.example.tprom.group.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,11 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
-import com.example.tprom.group.GroupAdapter;
 import com.example.tprom.properties.Task;
 
 import java.util.ArrayList;
@@ -57,6 +57,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             holder.progressBar.setProgress(progress);
             holder.ProgressPercent.setText(Integer.toString(progress)+"%");
         }
+        if(task.getStatusTask()==-1){
+            holder.background.setBackgroundResource(R.drawable.shape_task_uncompleted);
+        }
+        else if(task.getStatusTask()==1){
+            holder.background.setBackgroundResource(R.drawable.shape_task_completed);
+
+        }
     }
 
     @Override
@@ -69,6 +76,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         LinearLayout ProgressBarLayout;
         ProgressBar progressBar;
         RecyclerView MiniAvatar;
+        ConstraintLayout background;
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             Title=itemView.findViewById(R.id.taskitem_title);
@@ -79,6 +87,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             ProgressBarLayout=itemView.findViewById(R.id.taskitem_ll_progressbar);
             progressBar=itemView.findViewById(R.id.taskitem_progressbar);
             MiniAvatar=itemView.findViewById(R.id.taskitem_rv_user);
+            background=itemView.findViewById(R.id.taskitem_background);
         }
     }
 }

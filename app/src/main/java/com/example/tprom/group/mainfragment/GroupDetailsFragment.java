@@ -1,4 +1,4 @@
-package com.example.tprom.group.groupdetails;
+package com.example.tprom.group.mainfragment;
 
 import android.os.Bundle;
 
@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tprom.R;
-import com.example.tprom.group.GroupAdapter;
+import com.example.tprom.group.adapters.MiniMemberAdapter;
+import com.example.tprom.group.adapters.TaskAdapter;
 import com.example.tprom.properties.Task;
 import com.example.tprom.properties.User;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Date;
 

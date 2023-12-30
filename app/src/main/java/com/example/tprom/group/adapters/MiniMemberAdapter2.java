@@ -1,7 +1,6 @@
-package com.example.tprom.group.groupdetails;
+package com.example.tprom.group.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
-import com.example.tprom.group.GroupAdapter;
 import com.example.tprom.properties.User;
 
 import java.util.ArrayList;

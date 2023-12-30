@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.tprom.group.GroupFragment;
-import com.example.tprom.group.groupdetails.GroupDetailsFragment;
+import com.example.tprom.group.mainfragment.GroupFragment;
 import com.example.tprom.notification.NotificationFragment;
 
 public class SlidePageAdapter extends FragmentStateAdapter {

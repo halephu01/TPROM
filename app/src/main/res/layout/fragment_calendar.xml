@@ -3,17 +3,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mainfragment.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/calendar_ll_day"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is calendar fragment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/shape_8"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:layout_marginHorizontal="10dp"
+        >
+        <TextView
+            android:id="@+id/calendar_monday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Mo\n11"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+        <TextView
+            android:id="@+id/calendar_tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Tu\n12"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+        <TextView
+            android:id="@+id/calendar_wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="We\n13"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+        <TextView
+            android:id="@+id/calendar_thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Th\n14"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+        <TextView
+            android:id="@+id/calendar_friday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Fr\n15"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+        <TextView
+            android:id="@+id/calendar_saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Sa\n16"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>        <TextView
+        android:id="@+id/calendar_sunday"
+        android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Su\n 17"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+/>
+    </LinearLayout>
+        <TextView
+            android:id="@+id/calendar_btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous"
+            android:background="@drawable/shape_3"
+            android:textColor="@color/white"
+            android:fontFamily="@font/gilroy_medium"
+            android:textSize="16sp"
+            android:drawableStart="@drawable/icon_half_left_arrow"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginVertical="8dp"
+            app:layout_constraintTop_toBottomOf="@id/calendar_ll_day"
+            app:layout_constraintStart_toStartOf="@id/calendar_ll_day"/>
+    <TextView
+            android:id="@+id/calendar_btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:background="@drawable/shape_3"
+            android:textColor="@color/white"
+            android:fontFamily="@font/gilroy_medium"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:drawableEnd="@drawable/icon_half_right_arrow"
+            android:drawablePadding="8dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginVertical="8dp"
+            app:layout_constraintTop_toBottomOf="@id/calendar_ll_day"
+            app:layout_constraintEnd_toEndOf="@id/calendar_ll_day"/>
+    <TextView
+        android:id="@+id/calendar_tv_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tasks"
+        android:fontFamily="@font/gilroy_bold"
+        android:textSize="26sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/calendar_btn_previous"
+        app:layout_constraintStart_toStartOf="@id/calendar_btn_previous"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendar_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/calendar_tv_task"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

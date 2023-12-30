@@ -1,4 +1,4 @@
-package com.example.tprom.group;
+package com.example.tprom.group.mainfragment;
 
 import android.os.Bundle;
 
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tprom.R;
+import com.example.tprom.group.GroupAdapter;
+import com.example.tprom.group.GroupItem;
 
 import java.util.ArrayList;
 

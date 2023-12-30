@@ -1,4 +1,4 @@
-package com.example.tprom.group;
+package com.example.tprom.group.mainfragment;
 
 import android.os.Bundle;
 
@@ -13,13 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tprom.R;
+import com.example.tprom.group.adapters.TaskAdapter;
+import com.example.tprom.properties.Task;
 
 import java.util.ArrayList;
 
-public class GroupRequestFragment extends Fragment {
-    ArrayList<GroupItem> groupItems;
+public class TaskFragment extends Fragment {
     RecyclerView recyclerView;
-
+    ArrayList<Task> tasks;
+    boolean isAdmin;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +32,18 @@ public class GroupRequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_request, container, false);
+        return inflater.inflate(R.layout.fragment_task, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        groupItems=new ArrayList<>();
-        recyclerView=view.findViewById(R.id.grouprequest_rv);
-        GroupRequestAdapter groupRequestAdapter = new GroupRequestAdapter(this.getContext(),groupItems);
+        recyclerView=view.findViewById(R.id.task_rv);
+        isAdmin=true;
+        tasks=new ArrayList<>();
+        TaskAdapter taskAdapter=new TaskAdapter(this.getContext(),tasks,isAdmin);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(groupRequestAdapter);
-        groupRequestAdapter.notifyDataSetChanged();
-
+        recyclerView.setAdapter(taskAdapter);
+        taskAdapter.notifyDataSetChanged();
     }
 }

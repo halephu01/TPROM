@@ -1,4 +1,4 @@
-package com.example.tprom.group;
+package com.example.tprom.group.mainfragment;
 
 import android.os.Bundle;
 
@@ -13,15 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tprom.R;
-import com.example.tprom.group.groupdetails.TaskAdapter;
-import com.example.tprom.properties.Task;
+import com.example.tprom.group.GroupItem;
+import com.example.tprom.group.GroupRequestAdapter;
 
 import java.util.ArrayList;
 
-public class TaskFragment extends Fragment {
+public class GroupRequestFragment extends Fragment {
+    ArrayList<GroupItem> groupItems;
     RecyclerView recyclerView;
-    ArrayList<Task> tasks;
-    boolean isAdmin;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +32,18 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task, container, false);
+        return inflater.inflate(R.layout.fragment_group_request, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView=view.findViewById(R.id.task_rv);
-        isAdmin=true;
-        tasks=new ArrayList<>();
-        TaskAdapter taskAdapter=new TaskAdapter(this.getContext(),tasks,isAdmin);
+        groupItems=new ArrayList<>();
+        recyclerView=view.findViewById(R.id.grouprequest_rv);
+        GroupRequestAdapter groupRequestAdapter = new GroupRequestAdapter(this.getContext(),groupItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(taskAdapter);
-        taskAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(groupRequestAdapter);
+        groupRequestAdapter.notifyDataSetChanged();
+
     }
 }
