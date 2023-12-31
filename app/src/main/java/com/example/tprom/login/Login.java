@@ -1,5 +1,6 @@
 package com.example.tprom.login;
 
+import com.example.tprom.ultis.AppConstants;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,10 +39,17 @@ public class Login extends AppCompatActivity {
     private DatabaseReference dataB;
     int RC_SIGN_IN = 20;
 
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        sharedPreferences = getSharedPreferences(AppConstants.PREF_NAME, MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean(AppConstants.KEY_IS_LOGGED_IN, false);
+
+        if (isLoggedIn) {
+            navigateToMainActivity();
+       }
 
         //đăng nhập với username và passowrd
         mAuth= FirebaseAuth.getInstance();
@@ -104,6 +113,9 @@ public class Login extends AppCompatActivity {
     //hàm mở class Main khi đăng nhập bằng google
     void loginWithGoogle(){
         finish();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
+        editor.apply();
         Intent intent=new Intent(Login.this, MainActivity.class);
         startActivity(intent);
     }
@@ -133,6 +145,9 @@ public class Login extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
+                editor.apply();
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
             }else{
@@ -163,6 +178,7 @@ public class Login extends AppCompatActivity {
                 if (user != null) {
                     // Fetch username based on email
                     fetchUsernameByEmail(user.getEmail());
+
                 }
             } else {
                 Toast.makeText(this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
@@ -179,6 +195,9 @@ public class Login extends AppCompatActivity {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String username = userSnapshot.child("username").getValue(String.class);
                     Toast.makeText(Login.this, "Xin chào, " + username + "!", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
+                    editor.apply();
                 }
             }
 
@@ -188,5 +207,9 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(Login.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+ }
 }

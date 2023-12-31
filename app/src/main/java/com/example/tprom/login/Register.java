@@ -84,9 +84,10 @@ public class Register extends AppCompatActivity {
                 DatabaseReference userReference = dataB.child("users").child(userId);
 
                 Map<String, Object> userData = new HashMap<>();
-                userData.put("username", username);
+
                 userData.put("email", email);
                 userData.put("password",password);
+                userData.put("username", username);
                 userReference.setValue(userData);
 
                 Toast.makeText(this, "Tài khoản tạo thành công!", Toast.LENGTH_SHORT).show();
