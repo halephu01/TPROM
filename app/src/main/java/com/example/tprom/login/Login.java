@@ -1,5 +1,6 @@
 package com.example.tprom.login;
 
+import com.example.tprom.ultis.AppConstants;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,19 +40,17 @@ public class Login extends AppCompatActivity {
     int RC_SIGN_IN = 20;
 
     private SharedPreferences sharedPreferences;
-    private static final String PREF_NAME = "login_pref";
-    private static final String KEY_IS_LOGGED_IN = "is_logged_in";
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
+        sharedPreferences = getSharedPreferences(AppConstants.PREF_NAME, MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean(AppConstants.KEY_IS_LOGGED_IN, false);
 
         if (isLoggedIn) {
             navigateToMainActivity();
-        }
+       }
+
         //đăng nhập với username và passowrd
         mAuth= FirebaseAuth.getInstance();
 
@@ -115,7 +114,7 @@ public class Login extends AppCompatActivity {
     void loginWithGoogle(){
         finish();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
         editor.apply();
         Intent intent=new Intent(Login.this, MainActivity.class);
         startActivity(intent);
@@ -147,7 +146,7 @@ public class Login extends AppCompatActivity {
             if(task.isSuccessful()){
                 Toast.makeText(getApplicationContext(),"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(KEY_IS_LOGGED_IN, true);
+                editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
                 editor.apply();
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
@@ -197,7 +196,7 @@ public class Login extends AppCompatActivity {
                     String username = userSnapshot.child("username").getValue(String.class);
                     Toast.makeText(Login.this, "Xin chào, " + username + "!", Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(KEY_IS_LOGGED_IN, true);
+                    editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
                     editor.apply();
                 }
             }
@@ -212,5 +211,5 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
-    }
+ }
 }
