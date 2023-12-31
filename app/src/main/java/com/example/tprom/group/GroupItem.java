@@ -14,4 +14,16 @@ public class GroupItem {
     public int getNumberOfDeadlines() {
         return numberOfDeadlines;
     }
+
+    public String GroupName() {
+        return null;
+    }
+
+    public String GroupOwner() {
+        return null;
+    }
+
+    public String Description() {
+        return null;
+    }
 }

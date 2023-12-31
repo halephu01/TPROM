@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:paddingHorizontal="10dp">
+    android:paddingHorizontal="10dp"
+    android:id="@+id/fragmentDetailGroup">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/groupdetail_cl_groupinfo"
         android:layout_width="match_parent"

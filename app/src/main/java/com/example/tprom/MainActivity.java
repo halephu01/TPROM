@@ -3,6 +3,9 @@ package com.example.tprom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,17 +28,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
-    private GoogleSignInOptions signInOptions;
-    private GoogleSignInClient signInClient;
+public class MainActivity extends AppCompatActivity{
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
+    TextView tv_onTop, tv_back;
+    ImageView img_avata;
+
     ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String[] tvOnTopChange = {"Teams","Calendar", "Notification", "Profile"};
         //for layouts
+        tv_onTop = findViewById(R.id.tv_TopMainText);
+        tv_back = findViewById(R.id.btn_back);
+        img_avata = findViewById(R.id.iv_TopMainAvatar);
+
         viewPager2=findViewById(R.id.layout_fragment);
         SlidePageAdapter adapter =new SlidePageAdapter(this);
         viewPager2.setAdapter(adapter);
@@ -46,34 +56,59 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 switch(position){
                     case 0:
+                        tv_onTop.setText(tvOnTopChange[0]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_group).setChecked(true);
                         break;
                     case 1:
+                        tv_onTop.setText(tvOnTopChange[1]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_calendar).setChecked(true);
                         break;
                     case 2:
+                        tv_onTop.setText(tvOnTopChange[2]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_notification).setChecked(true);
                         break;
                     case 3:
+                        tv_onTop.setText(tvOnTopChange[3]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_profile).setChecked(true);
                         break;
                 }
             }
         });
+
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.main_group:
+                        tv_onTop.setText(tvOnTopChange[0]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(0);
                         break;
                     case R.id.main_calendar:
+                        tv_onTop.setText(tvOnTopChange[1]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(1);
                         break;
                     case R.id.main_notification:
+                        tv_onTop.setText(tvOnTopChange[2]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(2);
                         break;
                     case R.id.main_profile:
+                        tv_onTop.setText(tvOnTopChange[3]);
+                        tv_back.setVisibility(View.GONE);
+                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(3);
                         break;
                 }
@@ -85,31 +120,9 @@ public class MainActivity extends AppCompatActivity {
 //        loadFragment(new ProfileFragment());
 //        binding.mainNavigationMenu.setOnItemSelectedListener(this::onNavigationItemSelected);
 
-
-        //Button btSignout = findViewById(R.id.profile_logout);
-
-        signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-//        signInClient = GoogleSignIn.getClient(this,signInOptions);
-//
-//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-//
-//        btSignout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                signOut();
-//            }
-//        });
-
     }
-    void signOut(){
-        signInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> task) {
-                finish();
-                startActivity(new Intent(MainActivity.this, Login.class));
-            }
-        });
-    }
+
+
     void loadFragment(Fragment fragment){
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();

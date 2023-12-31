@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tprom.MainActivity;
 import com.example.tprom.R;
 import com.example.tprom.group.adapters.MiniMemberAdapter;
 import com.example.tprom.group.adapters.TaskAdapter;
@@ -71,6 +72,30 @@ public class GroupDetailsFragment extends Fragment {
         }else{
             AddTask.setVisibility(View.GONE);
             AddMember.setVisibility(View.GONE);
+        }
+
+        if (getActivity() != null) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+
+            TextView tv_onTop  = mainActivity.findViewById(R.id.tv_TopMainText);
+            TextView tv_back = mainActivity.findViewById(R.id.btn_back);
+            ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
+
+            tv_onTop.setText("Details");
+            tv_back.setVisibility(View.VISIBLE);
+            img_avatar.setVisibility(View.GONE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentDetailGroup, new GroupFragment())
+                            .commitAllowingStateLoss();
+                    tv_onTop.setText("Teams");
+                    tv_back.setVisibility(View.GONE);
+                    img_avatar.setVisibility(View.VISIBLE);
+                }
+            });
         }
 
     }

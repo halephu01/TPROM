@@ -11,33 +11,37 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
-import com.example.tprom.notification.NotificationAdapter;
+import com.example.tprom.RecyclerViewClickListener;
+import com.example.tprom.group.mainfragment.GroupFragment;
 
 import java.util.ArrayList;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder> {
-    Context context;
-    ArrayList<GroupItem> groupItems;
+    private Context context;
+    private ArrayList<GroupItem> groupItems;
+    private RecyclerViewClickListener mListener;
 
-    public GroupAdapter(Context context, ArrayList<GroupItem> groupItems) {
+
+    public GroupAdapter(Context context, ArrayList<GroupItem> groupItems, GroupFragment listener) {
         this.context = context;
         this.groupItems = groupItems;
+        this.mListener = listener;
     }
 
     @NonNull
     @Override
     public GroupHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_item,parent,false);
-        return new GroupHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_item, parent, false);
+        return new GroupHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GroupHolder holder, int position) {
-        GroupItem g=groupItems.get(position);
+        GroupItem g = groupItems.get(position);
         holder.GroupName.setText(g.GroupName);
         holder.GroupOwner.setText(g.GroupOwner);
         holder.Description.setText(g.Description);
-        if(g.getNumberOfDeadlines()!=0){
+        if (g.getNumberOfDeadlines() != 0) {
             holder.Deadlines.setVisibility(View.VISIBLE);
             holder.Deadlines.setText(g.getNumberOfDeadlines() + " Deadlines");
         }
@@ -48,10 +52,16 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
         return groupItems.size();
     }
 
-    static class GroupHolder extends RecyclerView.ViewHolder{
+    public interface RecyclerViewClickListener {
+        void onItemClick(View view, int adapterPosition);
+    }
+
+    static class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView GroupName, GroupOwner, Description, Deadlines;
         ImageView GroupAvt, GroupOwnerAvt;
-        public GroupHolder(@NonNull View itemView) {
+        RecyclerViewClickListener mListener;
+
+        public GroupHolder(@NonNull View itemView, RecyclerViewClickListener listener) {
             super(itemView);
             GroupName = itemView.findViewById(R.id.groupitem_groupname);
             GroupOwner = itemView.findViewById(R.id.groupitem_ownername);
@@ -59,7 +69,16 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
             Deadlines = itemView.findViewById(R.id.groupitem_deadline);
             GroupAvt = itemView.findViewById(R.id.groupitem_groupavt);
             GroupOwnerAvt = itemView.findViewById(R.id.groupitem_owneravt);
+            mListener = listener;
 
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mListener != null) {
+                mListener.onItemClick(view, getAdapterPosition());
+            }
         }
     }
 }

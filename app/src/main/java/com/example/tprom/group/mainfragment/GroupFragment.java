@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tprom.R;
 import com.example.tprom.group.GroupAdapter;
@@ -20,7 +21,7 @@ import com.example.tprom.group.GroupItem;
 
 import java.util.ArrayList;
 
-public class GroupFragment extends Fragment {
+public class GroupFragment extends Fragment implements GroupAdapter.RecyclerViewClickListener{
     EditText ed_findteam;
     TextView tv_request,tv_create,tv_find;
     RecyclerView recyclerView;
@@ -42,15 +43,56 @@ public class GroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ed_findteam = view.findViewById(R.id.group_et_findteam);
         tv_create=view.findViewById(R.id.group_btn_create);
+        tv_request=view.findViewById(R.id.group_tv_request);
         tv_find=view.findViewById(R.id.group_btn_find);
         recyclerView=view.findViewById(R.id.group_rv);
         groupItems=new ArrayList<>();
         InitSample();
-        GroupAdapter groupAdapter= new GroupAdapter(getContext(),groupItems);
+
+        GroupAdapter groupAdapter = new GroupAdapter(getContext(), groupItems, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(groupAdapter);
         groupAdapter.notifyDataSetChanged();
+
+        tv_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateGroupFragment fragmentCreateGroup = new CreateGroupFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentGroup, fragmentCreateGroup)
+                        .commit();
+
+                tv_request.setVisibility(View.GONE);
+                tv_create.setVisibility(View.GONE);
+                tv_find.setVisibility(View.GONE);
+            }
+        });
     }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        GroupItem clickedGroup = groupItems.get(position);
+        Toast.makeText(getContext(), "Clicked on group: " + clickedGroup.GroupName(), Toast.LENGTH_SHORT).show();
+
+        GroupDetailsFragment fragment = new GroupDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("groupName", clickedGroup.GroupName());
+        bundle.putString("groupOwner", clickedGroup.GroupOwner());
+        bundle.putString("description", clickedGroup.Description());
+        fragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentGroup, fragment)
+                .commit();
+
+        tv_request.setVisibility(View.GONE);
+        tv_create.setVisibility(View.GONE);
+        tv_find.setVisibility(View.GONE);
+    }
+
+
     //sample data
     void InitSample(){
         groupItems.add(new GroupItem("Group 1","Lan dau tien trai thanh long co trong mi tom","That's me",3));

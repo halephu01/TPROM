@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragmentCreateGroup"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
     <View
         android:id="@+id/group_avatar_chg"
@@ -43,7 +44,7 @@
         android:layout_marginLeft="25dp"
         android:textSize="15sp"
         android:textColor="#676767"
-        android:text="@string/enter_your_"
+        android:hint="@string/enter_your_"
         android:paddingLeft="20dp"
         />
 
@@ -73,75 +74,18 @@
         android:layout_marginLeft="25dp"
         android:textSize="15sp"
         android:textColor="#676767"
-        android:text="@string/describe_ab"
+        android:hint="@string/describe_ab"
         android:gravity="left|top"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         />
-    <TextView
-        android:id="@+id/role"
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:text="@string/role"
-        app:layout_constraintTop_toBottomOf="@+id/ed_description"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="11dp"
-        android:layout_marginLeft="27dp"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:gravity="left|top"
-        />
 
-    <GridView
-        android:id="@+id/lv_role"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/ed_addrole"
-        app:layout_constraintStart_toStartOf="@+id/role"
-        app:layout_constraintTop_toBottomOf="@+id/role"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:numColumns="3"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="25dp"
-        />
-    <EditText
-        android:id="@+id/ed_addrole"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/shape_rectangle_login"
-        app:layout_constraintTop_toBottomOf="@+id/role"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:textSize="15sp"
-        android:textColor="#676767"
-        android:gravity="left|top"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        />
-    <TextView
-        android:id="@+id/tv_addRole"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/role"
-        app:layout_constraintRight_toRightOf="parent"
-
-        app:layout_constraintStart_toEndOf="@+id/lv_role"
-        android:layout_marginTop="5dp"
-        android:drawableStart="@drawable/ic_add"
-        app:layout_constraintLeft_toRightOf="@+id/ed_addrole"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="5dp"
-        />
     <TextView
         android:id="@+id/member"
         android:layout_width="80dp"
         android:layout_height="20dp"
         android:text="@string/member"
-        app:layout_constraintTop_toBottomOf="@+id/ed_addrole"
+        app:layout_constraintTop_toBottomOf="@+id/ed_description"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="11dp"
         android:layout_marginLeft="27dp"
@@ -188,9 +132,10 @@
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toEndOf="@+id/lv_member"
         android:drawableStart="@drawable/ic_add"
-        app:layout_constraintLeft_toRightOf="@+id/ed_addrole"
+        app:layout_constraintLeft_toRightOf="@+id/ed_description"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="5dp"
+        android:clickable="true"
         />
     <TextView
         android:id="@+id/create"
