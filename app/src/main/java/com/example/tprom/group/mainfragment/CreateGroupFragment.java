@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
@@ -33,10 +38,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class CreateGroupFragment extends Fragment {
-    EditText ed_teamname, ed_description, ed_addmem;
+    EditText ed_teamname, ed_description;
     TextView tv_create, tv_addMem;
 
-    GridView lv_member;
+    RecyclerView rc_member;
     private List<String> updatedMembers = new ArrayList<>();
 
 
@@ -62,12 +67,12 @@ public class CreateGroupFragment extends Fragment {
 
         ed_teamname = view.findViewById(R.id.ed_teamname);
         ed_description = view.findViewById(R.id.ed_description);
-        ed_addmem = view.findViewById(R.id.ed_addmem);
 
-        tv_addMem = view.findViewById(R.id.tv_addMem);
+        tv_addMem = view.findViewById(R.id.tv_addmem);
         tv_create = view.findViewById(R.id.create);
 
-        lv_member = view.findViewById(R.id.lv_member);
+        LinearLayout ll_addmem = view.findViewById(R.id.ll_addmem);
+        rc_member = view.findViewById(R.id.rc_member);
 
         if (getActivity() != null) {
             MainActivity mainActivity = (MainActivity) getActivity();
@@ -92,6 +97,10 @@ public class CreateGroupFragment extends Fragment {
                 }
             });
         }
+        rc_member.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        AddMemberAdapter adapter = new AddMemberAdapter(getContext(), updatedMembers);
+        rc_member.setAdapter(adapter);
 
         tv_addMem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,14 +124,24 @@ public class CreateGroupFragment extends Fragment {
 
                         updatedMembers.add(memberName);
 
-                        updateMembersGridView(updatedMembers);
+                        rc_member.setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
+                        int itemCount = rc_member.getAdapter().getItemCount();
+
+                        if(itemCount>3){
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT, 100);
+                            ll_addmem.setLayoutParams(layoutParams);
+                        }
+
+
+
+                        updateMembersRecycleVIew(updatedMembers);
 
                         dialog.dismiss();
                     }
                 });
 
                 Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-
                 positiveButton.setVisibility(View.GONE);
             }
         });
@@ -136,21 +155,22 @@ public class CreateGroupFragment extends Fragment {
                 DatabaseReference groupReference = dataB.child("groups").child(String.valueOf(groupId));
 
                 String teamname = ed_teamname.getText().toString();
-                if(teamname == null){
-                    Toast.makeText(getActivity(),"Vui lòng nhập tên nhóm",Toast.LENGTH_SHORT).show();
+
+                if(TextUtils.isEmpty(teamname)){
+                    Toast.makeText(getActivity(),"Vui lòng nhập tên cho nhóm!",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String description = ed_description.getText().toString();
-                if(description==null){
-                    Toast.makeText(getActivity(),"Vui lòng nhập mô tả nhóm", Toast.LENGTH_SHORT).show();
+
+                if(TextUtils.isEmpty(description)){
+                    Toast.makeText(getActivity(),"Vui lòng nhập mô tả cho nhóm!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 Map<String, Object> groupData = new HashMap<>();
-                groupData.put("teamname", teamname);
-                groupData.put("description", description);
-
+                groupData.put("groupName", teamname);
+                groupData.put("groupDescription", description);
                 groupData.put("members", updatedMembers);
-
                 groupReference.updateChildren(groupData);
 
                 getActivity().getSupportFragmentManager()
@@ -161,10 +181,12 @@ public class CreateGroupFragment extends Fragment {
         });
     }
 
-    private void updateMembersGridView(List<String> members) {
-        AddMemberAdapter adapter = new AddMemberAdapter(getContext(), members);
-        lv_member.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    private void updateMembersRecycleVIew(List<String> members) {
+        updatedMembers = members;
+
+        // Cập nhật RecyclerView thông qua Adapter
+        AddMemberAdapter adapter = new AddMemberAdapter(getContext(), updatedMembers);
+        rc_member.setAdapter(adapter);
     }
 
     private void updateMembersOnFirebase(String groupId, List<String> members) {

@@ -1,12 +1,12 @@
 package com.example.tprom.group;
 
 public class GroupItem {
-    String GroupName,Description,GroupOwner;
+    String GroupName,GroupDescription,GroupOwner;
     private int numberOfDeadlines;
 
-    public GroupItem(String groupName, String description, String groupOwner, int numberOfDeadlines) {
+    public GroupItem(String groupName, String groupDescription, String groupOwner, int numberOfDeadlines) {
         GroupName = groupName;
-        Description = description;
+        GroupDescription = groupDescription;
         GroupOwner = groupOwner;
         this.numberOfDeadlines = numberOfDeadlines;
     }
@@ -23,7 +23,7 @@ public class GroupItem {
         return null;
     }
 
-    public String Description() {
+    public String GroupDescription() {
         return null;
     }
 }

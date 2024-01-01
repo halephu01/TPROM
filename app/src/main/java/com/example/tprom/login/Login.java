@@ -4,6 +4,7 @@ import com.example.tprom.ultis.AppConstants;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,8 +61,13 @@ public class Login extends AppCompatActivity {
         TextView tv_login = findViewById(R.id.tv_login);
         TextView tv_register = findViewById(R.id.tv_register);
 
-        tv_login.setOnClickListener(v -> login());
-
+        tv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("LoginActivity", "tv_login clicked");
+                login();
+            }
+        });
         tv_register.setOnClickListener(v -> register());
 
         //đăng nhập bằng google
@@ -162,54 +168,9 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void signin() {
-        String email, password;
-        email = ed_username.getText().toString();
-        password = ed_password.getText().toString();
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Vui lòng nhập email và password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    // Fetch username based on email
-                    fetchUsernameByEmail(user.getEmail());
-
-                }
-            } else {
-                Toast.makeText(this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void fetchUsernameByEmail(String email) {
-        DatabaseReference usersRef = dataB.child("users");
-
-        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    String username = userSnapshot.child("username").getValue(String.class);
-                    Toast.makeText(Login.this, "Xin chào, " + username + "!", Toast.LENGTH_SHORT).show();
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(AppConstants.KEY_IS_LOGGED_IN, true);
-                    editor.apply();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Login.this, "Lỗi khi lấy dữ liệu từ server.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
     private void navigateToMainActivity() {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();
- }
+    }
 }

@@ -8,50 +8,52 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.tprom.R;
 
 import java.util.List;
 
-public class AddMemberAdapter extends BaseAdapter {
+public class AddMemberAdapter extends RecyclerView.Adapter<AddMemberAdapter.MemberViewHolder> {
+
+    private List<String> members;
     private Context context;
-    private String[] members;
 
     public AddMemberAdapter(Context context, List<String> members) {
         this.context = context;
-        this.members = members.toArray(new String[0]);
+        this.members = members;
+    }
+
+    @NonNull
+    @Override
+    public MemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_addmem, parent, false);
+        return new MemberViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return members.length;
+    public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
+        String memberName = members.get(position);
+        holder.usernameTextView.setText(memberName);
     }
 
     @Override
-    public Object getItem(int position) {
-        return members[position];
+    public int getItemCount() {
+        return members.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public static class MemberViewHolder extends RecyclerView.ViewHolder {
+        TextView usernameTextView;
 
-    @SuppressLint("ResourceType")
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View gridView;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null) {
-            gridView = new View(context);
-            gridView = inflater.inflate(R.layout.item_addmem, null);
-        } else {
-            gridView = convertView;
+        public MemberViewHolder(@NonNull View itemView) {
+            super(itemView);
+            usernameTextView = itemView.findViewById(R.id.tv_member_name); // adjust the ID if needed
         }
+    }
 
-        TextView usernameTextView = gridView.findViewById(R.id.tv_member_name);
-        usernameTextView.setText(members[position]);
-
-        return gridView;
+    public void updateData(List<String> newMembers) {
+        this.members = newMembers;
+        notifyDataSetChanged();
     }
 }

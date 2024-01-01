@@ -40,7 +40,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
         GroupItem g = groupItems.get(position);
         holder.GroupName.setText(g.GroupName);
         holder.GroupOwner.setText(g.GroupOwner);
-        holder.Description.setText(g.Description);
+        holder.GroupDescription.setText(g.GroupDescription);
         if (g.getNumberOfDeadlines() != 0) {
             holder.Deadlines.setVisibility(View.VISIBLE);
             holder.Deadlines.setText(g.getNumberOfDeadlines() + " Deadlines");
@@ -57,7 +57,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
     }
 
     static class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView GroupName, GroupOwner, Description, Deadlines;
+        TextView GroupName, GroupOwner, GroupDescription, Deadlines;
         ImageView GroupAvt, GroupOwnerAvt;
         RecyclerViewClickListener mListener;
 
@@ -65,7 +65,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
             super(itemView);
             GroupName = itemView.findViewById(R.id.groupitem_groupname);
             GroupOwner = itemView.findViewById(R.id.groupitem_ownername);
-            Description = itemView.findViewById(R.id.groupitem_description);
+            GroupDescription = itemView.findViewById(R.id.groupitem_description);
             Deadlines = itemView.findViewById(R.id.groupitem_deadline);
             GroupAvt = itemView.findViewById(R.id.groupitem_groupavt);
             GroupOwnerAvt = itemView.findViewById(R.id.groupitem_owneravt);

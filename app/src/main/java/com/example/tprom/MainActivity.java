@@ -58,26 +58,18 @@ public class MainActivity extends AppCompatActivity{
                 switch(position){
                     case 0:
                         tv_onTop.setText(tvOnTopChange[0]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_group).setChecked(true);
                         break;
                     case 1:
                         tv_onTop.setText(tvOnTopChange[1]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_calendar).setChecked(true);
                         break;
                     case 2:
                         tv_onTop.setText(tvOnTopChange[2]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_notification).setChecked(true);
                         break;
                     case 3:
                         tv_onTop.setText(tvOnTopChange[3]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         bottomNavigationView.getMenu().findItem(R.id.main_profile).setChecked(true);
                         break;
                 }
@@ -90,26 +82,18 @@ public class MainActivity extends AppCompatActivity{
                 switch(item.getItemId()){
                     case R.id.main_group:
                         tv_onTop.setText(tvOnTopChange[0]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(0);
                         break;
                     case R.id.main_calendar:
                         tv_onTop.setText(tvOnTopChange[1]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(1);
                         break;
                     case R.id.main_notification:
                         tv_onTop.setText(tvOnTopChange[2]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(2);
                         break;
                     case R.id.main_profile:
                         tv_onTop.setText(tvOnTopChange[3]);
-                        tv_back.setVisibility(View.GONE);
-                        img_avata.setVisibility(View.VISIBLE);
                         viewPager2.setCurrentItem(3);
                         break;
                 }

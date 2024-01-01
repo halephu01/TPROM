@@ -28,6 +28,7 @@
         android:background="@drawable/shape_3"
         android:paddingHorizontal="10dp"
         android:layout_gravity="center"
+        android:clickable="true"
         android:layout_marginStart="10dp"
         android:paddingVertical="5dp"/>
 

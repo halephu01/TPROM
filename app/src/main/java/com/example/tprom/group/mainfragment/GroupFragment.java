@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,12 @@ import android.widget.Toast;
 import com.example.tprom.R;
 import com.example.tprom.group.GroupAdapter;
 import com.example.tprom.group.GroupItem;
+import com.example.tprom.properties.Group;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -47,20 +54,52 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
         tv_find=view.findViewById(R.id.group_btn_find);
         recyclerView=view.findViewById(R.id.group_rv);
         groupItems=new ArrayList<>();
-        InitSample();
 
-        GroupAdapter groupAdapter = new GroupAdapter(getContext(), groupItems, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(groupAdapter);
-        groupAdapter.notifyDataSetChanged();
+
+        if (groupItems != null) {
+            GroupAdapter groupAdapter = new GroupAdapter(getContext(), groupItems, this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(groupAdapter);
+            groupAdapter.notifyDataSetChanged();
+
+            DatabaseReference groupsRef = FirebaseDatabase.getInstance().getReference("groups");
+
+            groupsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    groupItems.clear(); // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+
+                    // Duyệt qua tất cả các dữ liệu con trong node "groups"
+                    for (DataSnapshot groupSnapshot : dataSnapshot.getChildren()) {
+                        // Lấy dữ liệu của mỗi group
+                        Group group = groupSnapshot.getValue(Group.class);
+
+                        if (group != null) {
+
+                            String groupName = group.getGroupName();
+                            String groupDescription = group.getGroupDescription();
+
+                            groupItems.add(new GroupItem(groupName, groupDescription, "Phu", 4));
+                        }
+                    }
+
+                    groupAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), "Lỗi khi truy xuất dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateGroupFragment fragmentCreateGroup = new CreateGroupFragment();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentGroup, fragmentCreateGroup)
+                        .replace(R.id.fragmentGroup, new CreateGroupFragment())
                         .commit();
 
                 tv_request.setVisibility(View.GONE);
@@ -73,32 +112,23 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
     @Override
     public void onItemClick(View view, int position) {
         GroupItem clickedGroup = groupItems.get(position);
-        Toast.makeText(getContext(), "Clicked on group: " + clickedGroup.GroupName(), Toast.LENGTH_SHORT).show();
+        clickedGroup.GroupName();
 
-        GroupDetailsFragment fragment = new GroupDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("groupName", clickedGroup.GroupName());
         bundle.putString("groupOwner", clickedGroup.GroupOwner());
-        bundle.putString("description", clickedGroup.Description());
-        fragment.setArguments(bundle);
+        bundle.putString("description", clickedGroup.GroupDescription());
+
+        GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+        groupDetailsFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentGroup, fragment)
+                .replace(R.id.fragmentGroup, groupDetailsFragment)
                 .commit();
 
         tv_request.setVisibility(View.GONE);
         tv_create.setVisibility(View.GONE);
         tv_find.setVisibility(View.GONE);
-    }
-
-
-    //sample data
-    void InitSample(){
-        groupItems.add(new GroupItem("Group 1","Lan dau tien trai thanh long co trong mi tom","That's me",3));
-        groupItems.add(new GroupItem("Group 2","Lan dau tien trai thanh long co trong mi tom","That's me",4));
-        groupItems.add(new GroupItem("Group 3","Lan dau tien trai thanh long co trong mi tom","That's me",2));
-        groupItems.add(new GroupItem("Group 4","Lan dau tien trai thanh long co trong mi tom","That's me",0));
-        groupItems.add(new GroupItem("Group 4","Lan dau tien trai thanh long co trong mi tom","That's me",4));
     }
 }

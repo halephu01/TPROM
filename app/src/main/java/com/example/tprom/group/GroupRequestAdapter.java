@@ -37,9 +37,8 @@ public class GroupRequestAdapter extends RecyclerView.Adapter<GroupRequestAdapte
         GroupItem g=groupItems.get(position);
         holder.GroupName.setText(g.GroupName);
         holder.GroupOwner.setText(g.GroupOwner);
-        holder.Description.setText(g.Description);
+        holder.GroupDescription.setText(g.GroupDescription);
         holder.RequestLayout.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -48,7 +47,7 @@ public class GroupRequestAdapter extends RecyclerView.Adapter<GroupRequestAdapte
     }
 
     static class GroupHolder extends RecyclerView.ViewHolder{
-        TextView GroupName, GroupOwner, Description;
+        TextView GroupName, GroupOwner, GroupDescription;
         ImageView GroupAvt, GroupOwnerAvt;
         LinearLayout RequestLayout;
         TextView AcceptButton,DeclineButton;
@@ -56,7 +55,7 @@ public class GroupRequestAdapter extends RecyclerView.Adapter<GroupRequestAdapte
             super(itemView);
             GroupName = itemView.findViewById(R.id.groupitem_groupname);
             GroupOwner = itemView.findViewById(R.id.groupitem_ownername);
-            Description = itemView.findViewById(R.id.groupitem_description);
+            GroupDescription = itemView.findViewById(R.id.groupitem_description);
             GroupAvt = itemView.findViewById(R.id.groupitem_groupavt);
             GroupOwnerAvt = itemView.findViewById(R.id.groupitem_owneravt);
             RequestLayout=itemView.findViewById(R.id.groupitem_ll_request);

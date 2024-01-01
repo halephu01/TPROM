@@ -35,7 +35,6 @@ public class GroupDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,6 +46,7 @@ public class GroupDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         GroupAvatar=view.findViewById(R.id.groupdetail_groupavt);
         GroupName=view.findViewById(R.id.groupdetail_groupname);
         Description=view.findViewById(R.id.groupdetail_description);
@@ -54,16 +54,24 @@ public class GroupDetailsFragment extends Fragment {
         AddTask=view.findViewById(R.id.groupdetail_btn_addtask);
         ListMember=view.findViewById(R.id.groupdetail_rv_member);
         ListTask=view.findViewById(R.id.groupdetail_rv_task);
+
         tasks =new ArrayList<>();
         users=new ArrayList<>();
         isAdmin=true;
+
         InitSample();
+
         TaskAdapter taskAdapter = new TaskAdapter(this.getContext(),tasks,isAdmin);
+
         MiniMemberAdapter miniMemberAdapter= new MiniMemberAdapter(this.getContext(),users);
+
         ListTask.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
+
         ListMember.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.HORIZONTAL,false));
+
         ListTask.setAdapter(taskAdapter);
         ListMember.setAdapter(miniMemberAdapter);
+
         taskAdapter.notifyDataSetChanged();
         miniMemberAdapter.notifyDataSetChanged();
         //Neu la admin thi hien 2 button
@@ -104,6 +112,7 @@ public class GroupDetailsFragment extends Fragment {
         users.add(new User(2,"Phuc1","aa","123",-1));
         users.add(new User(3,"Phuc2","aa","123",-1));
         users.add(new User(4,"Phuc3","aa","123",-1));
+
         tasks.add(new Task(1,1,1,"Task 1","hihihaha",0.6,new Date(123,11,23,12,23),0,1,users));
         tasks.add(new Task(2,1,1,"Task 2","hahahoho",0,new Date(123,11,23,12,23),0,1,users));
         tasks.add(new Task(2,1,1,"Task 3","hohohehe",0.9,new Date(123,11,23,12,23),0,1,users));
