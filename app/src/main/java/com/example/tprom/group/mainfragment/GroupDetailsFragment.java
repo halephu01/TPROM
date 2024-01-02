@@ -128,7 +128,13 @@ public class GroupDetailsFragment extends Fragment {
         AddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                NewTaskFragment newTaskFragment = new NewTaskFragment();
+                if (getActivity() != null) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentDetailGroup, newTaskFragment)
+                            .commit();
+                }
             }
         });
     }

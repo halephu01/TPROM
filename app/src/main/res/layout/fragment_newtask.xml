@@ -58,12 +58,13 @@
             android:text="Start Date"
             />
         <TextView
+            android:id="@+id/startTime"
             android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="60dp"
             android:layout_marginLeft="80dp"
-            android:text="23.12.2023  10:00 PM"
+            android:hint="Click here set start time"
             />
         <RelativeLayout
             android:layout_width="50dp"
@@ -92,12 +93,13 @@
             android:text="Due Date"
             />
         <TextView
+            android:id="@+id/dueTime"
             android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="110dp"
             android:layout_marginLeft="80dp"
-            android:text="23.12.2023  23:00 PM"
+            android:hint="Click here set deadline"
             />
     </RelativeLayout>
 
@@ -144,6 +146,7 @@
             android:background="@drawable/rectangle_3"
             />
         <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
