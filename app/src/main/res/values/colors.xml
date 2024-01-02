@@ -9,4 +9,7 @@
     <color name="blue5">#ADD7F6</color>
     <color name="hint_color">#626262</color>
     <color name="icon_color">#303030</color>
+    <color name="colorPrimary">#2979FF</color>
+    <color name="colorPrimaryDark">#3D5AFE</color>
+    <color name="colorAccent">#FF1744</color>
 </resources>
