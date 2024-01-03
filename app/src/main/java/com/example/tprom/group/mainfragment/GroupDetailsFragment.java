@@ -24,6 +24,7 @@ import com.example.tprom.R;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.group.adapters.MiniMemberAdapter;
 import com.example.tprom.group.adapters.TaskAdapter;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.Task;
 import com.example.tprom.properties.User;
 import com.google.firebase.database.DataSnapshot;
@@ -34,8 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class GroupDetailsFragment extends Fragment {
     ImageView GroupAvatar;
@@ -124,28 +123,37 @@ public class GroupDetailsFragment extends Fragment {
             String groupName = bundle.getString("groupName");
             String description = bundle.getString("description");
 
-            DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
-            groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                List<String> members;
+                DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+                groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    ArrayList<Member> members = new ArrayList<>();
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                            GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
+                            if (memberName.groupName.toString().equals(groupName)) {
+                                members = memberName.getMembers();
+                                for (Member member : members) {
+                                    String name = member.getName();
+                                    String role = member.getRole();
 
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
-                        GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
-                        if (memberName.groupName.toString().equals(groupName)) {
-                            members = memberName.getMembers();
+                                    Log.d("Member", "Name: " + name);
+                                }
+                                break;
+                            }
                         }
+
+                        miniMemberAdapter.notifyDataSetChanged();
                     }
-                    for(int i=0;i<members.size();i++){
-                        users.add(new User(i, members.get(i), "1","1",-1));
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
                     }
-                    miniMemberAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
-                }
-            });
+                });
+
+
+
+
             GroupName.setText(groupName);
             Description.setText(description);
         }

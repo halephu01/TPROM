@@ -19,6 +19,7 @@ import com.example.tprom.R;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.group.adapters.MemberAdapter;
 import com.example.tprom.group.adapters.MiniMemberAdapter;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,25 +84,23 @@ public class MemberFragment extends Fragment {
         Bundle bundle2 = getArguments();
         if(bundle2!=null){
             String groupName = bundle2.getString("groupName");
-            Log.d("group", "group" + groupName);
 
 
             DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
             groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                List<String> members;
-
+                ArrayList<Member> members;
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
                         GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
                         if (memberName.groupName.toString().equals(groupName)) {
-                            members = memberName.getMembers();
+                           members = memberName.getMembers();
 
                             members.size();
                         }
                     }
                     for(int i=0;i<members.size();i++){
-                        users.add(new User(i, members.get(i), "1","1",-1));
+                        //users.add(new User(i, members.get(i), "1","1",-1));
                     }
                     tv_members.setText(String.valueOf(members.size())+" members");
                     memberAdapter.notifyDataSetChanged();
@@ -111,6 +110,7 @@ public class MemberFragment extends Fragment {
                     Log.e("MemberFragment", "Failed to read members: " + databaseError.getMessage());
                 }
             });
+
 
 
         }

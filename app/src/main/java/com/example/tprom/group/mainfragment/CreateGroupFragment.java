@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
 import com.example.tprom.group.adapters.AddMemberAdapter;
+import com.example.tprom.properties.Member;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,10 +37,10 @@ import java.util.Random;
 
 public class CreateGroupFragment extends Fragment {
     EditText ed_teamname, ed_description;
-    TextView tv_create, tv_addMem;
+    TextView tv_create, tv_addMem,tv_member;
 
     RecyclerView rc_member;
-    private List<String> updatedMembers = new ArrayList<>();
+    private List<Member> updatedMembers = new ArrayList<>();
 
 
     private DatabaseReference dataB;
@@ -67,6 +68,7 @@ public class CreateGroupFragment extends Fragment {
 
         tv_addMem = view.findViewById(R.id.tv_addmem);
         tv_create = view.findViewById(R.id.create);
+        tv_member = view.findViewById(R.id.member);
 
         LinearLayout ll_addmem = view.findViewById(R.id.ll_addmem);
         rc_member = view.findViewById(R.id.rc_member);
@@ -108,7 +110,8 @@ public class CreateGroupFragment extends Fragment {
 
                 builder.setView(dialogView);
 
-                EditText addmember = dialogView.findViewById(R.id.dialog_addmember_username);
+                EditText addMember = dialogView.findViewById(R.id.dialog_addmember_username);
+                EditText addRole = dialogView.findViewById(R.id.dialog_addrole_username);
                 TextView addTextView = dialogView.findViewById(R.id.dialog_addmember_add);
 
                 AlertDialog dialog = builder.create();
@@ -117,9 +120,10 @@ public class CreateGroupFragment extends Fragment {
                 addTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String memberName = addmember.getText().toString();
+                        String memberName = addMember.getText().toString();
+                        String memberRole = addRole.getText().toString();
 
-                        updatedMembers.add(memberName);
+                        updatedMembers.add(new Member(memberName, memberRole));
 
                         rc_member.setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
 
@@ -133,6 +137,7 @@ public class CreateGroupFragment extends Fragment {
                 positiveButton.setVisibility(View.GONE);
             }
         });
+
 
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +164,7 @@ public class CreateGroupFragment extends Fragment {
                 groupData.put("groupName", teamname);
                 groupData.put("groupDescription", description);
                 groupData.put("members", updatedMembers);
+
                 groupReference.updateChildren(groupData);
 
                 getActivity().getSupportFragmentManager()
@@ -169,9 +175,8 @@ public class CreateGroupFragment extends Fragment {
         });
     }
 
-    private void updateMembersRecycleVIew(List<String> members) {
+    private void updateMembersRecycleVIew(List<Member> members) {
         updatedMembers = members;
-
         AddMemberAdapter adapter = new AddMemberAdapter(getContext(), updatedMembers);
         rc_member.setAdapter(adapter);
     }

@@ -10,15 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
+import com.example.tprom.properties.Member;
 
 import java.util.List;
 
 public class AddMemberAdapter extends RecyclerView.Adapter<AddMemberAdapter.MemberViewHolder> {
 
-    private List<String> members;
+    private List<Member> members;
     private Context context;
 
-    public AddMemberAdapter(Context context, List<String> members) {
+    public AddMemberAdapter(Context context, List<Member> members) {
         this.context = context;
         this.members = members;
     }
@@ -32,8 +33,8 @@ public class AddMemberAdapter extends RecyclerView.Adapter<AddMemberAdapter.Memb
 
     @Override
     public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
-        String memberName = members.get(position);
-        holder.usernameTextView.setText(memberName);
+        Member member = members.get(position);
+        holder.usernameTextView.setText(member.getName());
     }
 
     @Override
@@ -50,7 +51,7 @@ public class AddMemberAdapter extends RecyclerView.Adapter<AddMemberAdapter.Memb
         }
     }
 
-    public void updateData(List<String> newMembers) {
+    public void updateData(List<Member> newMembers) {
         this.members = newMembers;
         notifyDataSetChanged();
     }

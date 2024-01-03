@@ -1,11 +1,13 @@
 package com.example.tprom.group;
 
+import com.example.tprom.properties.Member;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupItem {
     public String groupName,groupDescription,GroupOwner;
-    private List<String> members;
+    private ArrayList<Member> members;
 
     private int numberOfDeadlines;
 
@@ -23,7 +25,14 @@ public class GroupItem {
         this.groupDescription = groupDescription;
     }
 
-    public GroupItem(String groupName, String groupDescription, List<String> members) {
+    public GroupItem(String groupName, String groupDescription, String groupOwner) {
+        this.groupName = groupName;
+        this.groupDescription = groupDescription;
+        this.GroupOwner=groupOwner;
+
+    }
+
+    public GroupItem(String groupName, String groupDescription, ArrayList<Member> members) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
         this.members=members;
@@ -41,7 +50,7 @@ public class GroupItem {
         return GroupOwner;
     }
 
-    public List<String> getMembers() {
+    public ArrayList<Member> getMembers() {
         return members;
     }
 

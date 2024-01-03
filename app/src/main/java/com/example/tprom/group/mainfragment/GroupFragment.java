@@ -20,6 +20,7 @@ import com.example.tprom.R;
 import com.example.tprom.group.GroupAdapter;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.properties.Group;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +29,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,29 +67,41 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
             groupAdapter.notifyDataSetChanged();
 
             DatabaseReference groupsRef = FirebaseDatabase.getInstance().getReference("groups");
-
             groupsRef.addValueEventListener(new ValueEventListener() {
+                ArrayList<Member> members;
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     groupItems.clear();
+
                     for (DataSnapshot groupSnapshot : dataSnapshot.getChildren()) {
-                        Group group = groupSnapshot.getValue(Group.class);
+                        GroupItem group = groupSnapshot.getValue(GroupItem.class);
 
                         if (group != null) {
-                            String groupName = group.getGroupName();
-                            String groupDescription = group.getGroupDescription();
-                            groupItems.add(new GroupItem(groupName, groupDescription));
+                            String groupName = group.GroupName();
+                            String groupDescription = group.GroupDescription();
+                            String groupOwner;
+                            members = group.getMembers();
+
+                            for(Member member : members){
+                                String name = member.getName();
+                                String role = member.getRole();
+
+
+                                    groupItems.add(new GroupItem(groupName, groupDescription, name));
+
+                            }
                         }
                     }
 
                     groupAdapter.notifyDataSetChanged();
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Toast.makeText(getContext(), "Lỗi khi truy xuất dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
         }
 
         tv_create.setOnClickListener(new View.OnClickListener() {
