@@ -1,32 +1,24 @@
 package com.example.tprom.group.mainfragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
-import com.example.tprom.group.adapters.TaskAdapter;
-import com.example.tprom.properties.Task;
-import com.example.tprom.properties.User;
 
-import java.util.ArrayList;
-import java.util.Date;
+public class AddMemberFromDetails extends Fragment {
+    RecyclerView rc_mem;
+    TextView tv_mem;
 
-public class TaskFragment extends Fragment {
-    RecyclerView recyclerView;
-    ArrayList<Task> tasks;
-    boolean isAdmin;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +28,13 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task, container, false);
+        return inflater.inflate(R.layout.fragment_mem, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        recyclerView=view.findViewById(R.id.task_rv);
-        isAdmin=true;
-        tasks=new ArrayList<>();
-        TaskAdapter taskAdapter=new TaskAdapter(this.getContext(),tasks,isAdmin);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(taskAdapter);
-        taskAdapter.notifyDataSetChanged();
+        rc_mem = view.findViewById(R.id.details_recycle_mem);
+        tv_mem = view.findViewById(R.id.details_tv_members);
 
         if (getActivity() != null) {
             MainActivity mainActivity = (MainActivity) getActivity();
@@ -57,7 +43,7 @@ public class TaskFragment extends Fragment {
             TextView tv_back = mainActivity.findViewById(R.id.btn_back);
             ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
 
-            tv_onTop.setText("Task");
+            tv_onTop.setText("Members");
             tv_back.setVisibility(View.VISIBLE);
             img_avatar.setVisibility(View.GONE);
             tv_back.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +52,7 @@ public class TaskFragment extends Fragment {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragmentDetailGroup, new GroupDetailsFragment())
-                            .commit();
+                            .commitAllowingStateLoss();
                     tv_onTop.setText("Details");
                     tv_back.setVisibility(View.GONE);
                     img_avatar.setVisibility(View.VISIBLE);

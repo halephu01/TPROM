@@ -14,6 +14,7 @@ public class Task {
     private int statusTask; //-1: khong hoan thanh, 0: dang lam, 1: hoan thanh
     private int NumberOfAttachment;
     private ArrayList<User> member;
+
     public Task(int taskId, int groupId, int userid, String nameTask, String describeTask, double ProgressPercent, Date deadline, int statusTask, int numberOfAttachment, ArrayList<User> member) {
         this.taskId = taskId;
         this.groupId = groupId;
@@ -26,8 +27,6 @@ public class Task {
         NumberOfAttachment = numberOfAttachment;
         this.member = member;
     }
-
-
 
     public int getTaskId() {
         return taskId;

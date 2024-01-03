@@ -71,6 +71,7 @@
             android:textColor="@color/text_normal"
             android:textSize="20sp"
             android:paddingBottom="5dp"
+            android:clickable="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,6 +94,7 @@
             app:layout_constraintStart_toEndOf="@+id/groupdetail_rv_member"
             app:layout_constraintTop_toBottomOf="@id/groupdetail_tv_member" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -114,6 +116,7 @@
             android:textColor="@color/text_normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
             />
         <TextView
             android:id="@+id/groupdetail_btn_addtask"

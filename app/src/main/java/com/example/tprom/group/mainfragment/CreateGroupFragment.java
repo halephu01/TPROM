@@ -1,11 +1,8 @@
 package com.example.tprom.group.mainfragment;
 
-import static android.content.DialogInterface.*;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
+import com.example.tprom.group.adapters.AddMemberAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -125,15 +122,6 @@ public class CreateGroupFragment extends Fragment {
                         updatedMembers.add(memberName);
 
                         rc_member.setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
-                        int itemCount = rc_member.getAdapter().getItemCount();
-
-                        if(itemCount>3){
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT, 100);
-                            ll_addmem.setLayoutParams(layoutParams);
-                        }
-
-
 
                         updateMembersRecycleVIew(updatedMembers);
 
@@ -184,14 +172,12 @@ public class CreateGroupFragment extends Fragment {
     private void updateMembersRecycleVIew(List<String> members) {
         updatedMembers = members;
 
-        // Cập nhật RecyclerView thông qua Adapter
         AddMemberAdapter adapter = new AddMemberAdapter(getContext(), updatedMembers);
         rc_member.setAdapter(adapter);
     }
 
     private void updateMembersOnFirebase(String groupId, List<String> members) {
         DatabaseReference groupReference = dataB.child("groups").child(groupId);
-
         groupReference.child("members").setValue(members);
     }
 }

@@ -35,9 +35,9 @@ public class GroupRequestAdapter extends RecyclerView.Adapter<GroupRequestAdapte
     @Override
     public void onBindViewHolder(@NonNull GroupHolder holder, int position) {
         GroupItem g=groupItems.get(position);
-        holder.GroupName.setText(g.GroupName);
+        holder.GroupName.setText(g.groupName);
         holder.GroupOwner.setText(g.GroupOwner);
-        holder.GroupDescription.setText(g.GroupDescription);
+        holder.GroupDescription.setText(g.groupDescription);
         holder.RequestLayout.setVisibility(View.VISIBLE);
     }
 

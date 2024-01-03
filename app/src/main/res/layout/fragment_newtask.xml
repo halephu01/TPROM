@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:id="@+id/choosedate"
@@ -229,7 +230,7 @@
             android:fontFamily="@font/gilroy_medium"
             android:textSize="15sp"
             android:textColor="#676767"
-            android:text="Task name"
+            android:hint="Task name"
             android:paddingLeft="10dp"
             />
         <EditText
@@ -245,7 +246,7 @@
             android:textSize="15sp"
             android:textColor="#676767"
             android:fontFamily="@font/gilroy_medium"
-            android:text="Discription"
+            android:hint="Discription"
             android:gravity="top"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"

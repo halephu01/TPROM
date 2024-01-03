@@ -17,10 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.tprom.MainActivity;
 import com.example.tprom.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +46,6 @@ public class NewTaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_newtask);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,31 @@ public class NewTaskFragment extends Fragment {
         gridView = view.findViewById(R.id.gridView);
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, uploadedFiles);
         gridView.setAdapter(adapter);
+
+        if (getActivity() != null) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+
+            TextView tv_onTop  = mainActivity.findViewById(R.id.tv_TopMainText);
+            TextView tv_back = mainActivity.findViewById(R.id.btn_back);
+            ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
+
+            tv_onTop.setText("New Task");
+            tv_back.setVisibility(View.VISIBLE);
+            img_avatar.setVisibility(View.GONE);
+            tv_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentDetailGroup, new GroupDetailsFragment())
+                            .commitAllowingStateLoss();
+                    tv_onTop.setText("Details");
+                    tv_back.setVisibility(View.GONE);
+                    img_avatar.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
 
         TextView uploadTextView = view.findViewById(R.id.create);
 

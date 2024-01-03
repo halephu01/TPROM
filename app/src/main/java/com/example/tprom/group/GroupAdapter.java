@@ -38,9 +38,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
     @Override
     public void onBindViewHolder(@NonNull GroupHolder holder, int position) {
         GroupItem g = groupItems.get(position);
-        holder.GroupName.setText(g.GroupName);
+        holder.GroupName.setText(g.groupName);
         holder.GroupOwner.setText(g.GroupOwner);
-        holder.GroupDescription.setText(g.GroupDescription);
+        holder.GroupDescription.setText(g.groupDescription);
         if (g.getNumberOfDeadlines() != 0) {
             holder.Deadlines.setVisibility(View.VISIBLE);
             holder.Deadlines.setText(g.getNumberOfDeadlines() + " Deadlines");

@@ -2,6 +2,8 @@ package com.example.tprom.properties;
 
 import android.media.Image;
 
+import java.util.ArrayList;
+
 public class User {
     private int userId;
     private String username;

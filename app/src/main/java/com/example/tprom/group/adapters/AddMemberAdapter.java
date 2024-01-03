@@ -1,11 +1,9 @@
-package com.example.tprom.group.mainfragment;
+package com.example.tprom.group.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +46,7 @@ public class AddMemberAdapter extends RecyclerView.Adapter<AddMemberAdapter.Memb
 
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);
-            usernameTextView = itemView.findViewById(R.id.tv_member_name); // adjust the ID if needed
+            usernameTextView = itemView.findViewById(R.id.tv_member_name);
         }
     }
 

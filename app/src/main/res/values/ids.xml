@@ -4,4 +4,6 @@
     <item name="groupitem_name" type="id" />
     <item name="groupdetail_cl_member" type="id" />
     <item name="taskitem_rv_user" type="id" />
+    <item name="fragment_members" type="id" />
+    <item name="fragment_details_members" type="id" />
 </resources>

@@ -20,13 +20,18 @@ import com.example.tprom.R;
 import com.example.tprom.group.GroupAdapter;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.properties.Group;
+import com.example.tprom.properties.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GroupFragment extends Fragment implements GroupAdapter.RecyclerViewClickListener{
     EditText ed_findteam;
@@ -55,7 +60,6 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
         recyclerView=view.findViewById(R.id.group_rv);
         groupItems=new ArrayList<>();
 
-
         if (groupItems != null) {
             GroupAdapter groupAdapter = new GroupAdapter(getContext(), groupItems, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,19 +71,14 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
             groupsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    groupItems.clear(); // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
-
-                    // Duyệt qua tất cả các dữ liệu con trong node "groups"
+                    groupItems.clear();
                     for (DataSnapshot groupSnapshot : dataSnapshot.getChildren()) {
-                        // Lấy dữ liệu của mỗi group
                         Group group = groupSnapshot.getValue(Group.class);
 
                         if (group != null) {
-
                             String groupName = group.getGroupName();
                             String groupDescription = group.getGroupDescription();
-
-                            groupItems.add(new GroupItem(groupName, groupDescription, "Phu", 4));
+                            groupItems.add(new GroupItem(groupName, groupDescription));
                         }
                     }
 
@@ -92,7 +91,6 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                 }
             });
         }
-
 
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,13 +110,14 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
     @Override
     public void onItemClick(View view, int position) {
         GroupItem clickedGroup = groupItems.get(position);
-        clickedGroup.GroupName();
 
+        // Chuyển dữ liệu đến GroupDetailsFragment
         Bundle bundle = new Bundle();
         bundle.putString("groupName", clickedGroup.GroupName());
         bundle.putString("groupOwner", clickedGroup.GroupOwner());
         bundle.putString("description", clickedGroup.GroupDescription());
 
+        // Tạo và hiển thị GroupDetailsFragment
         GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
         groupDetailsFragment.setArguments(bundle);
 
@@ -127,6 +126,7 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                 .replace(R.id.fragmentGroup, groupDetailsFragment)
                 .commit();
 
+        // Ẩn các view
         tv_request.setVisibility(View.GONE);
         tv_create.setVisibility(View.GONE);
         tv_find.setVisibility(View.GONE);
