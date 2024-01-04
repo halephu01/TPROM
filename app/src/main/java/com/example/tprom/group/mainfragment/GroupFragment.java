@@ -79,20 +79,25 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                         if (group != null) {
                             String groupName = group.GroupName();
                             String groupDescription = group.GroupDescription();
-                            String groupOwner;
+                            String groupId = group.GroupId();
                             members = group.getMembers();
 
                             for(Member member : members){
-                                String name = member.getName();
                                 String role = member.getRole();
+                                String name = member.getName();
 
-
+                                if(role == "Leader"){
+                                    Log.d("Leader ", "Name "+ name);
                                     groupItems.add(new GroupItem(groupName, groupDescription, name));
-
+                                    break;
+                                }
+                                else {
+                                    groupItems.add(new GroupItem(groupName, groupDescription));
+                                    break;
+                                }
                             }
                         }
                     }
-
                     groupAdapter.notifyDataSetChanged();
                 }
                 @Override
@@ -100,8 +105,6 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                     Toast.makeText(getContext(), "Lỗi khi truy xuất dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
 
         tv_create.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +131,7 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
         bundle.putString("groupName", clickedGroup.GroupName());
         bundle.putString("groupOwner", clickedGroup.GroupOwner());
         bundle.putString("description", clickedGroup.GroupDescription());
+        bundle.putString("groupId", clickedGroup.GroupId());
 
         // Tạo và hiển thị GroupDetailsFragment
         GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();

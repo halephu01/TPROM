@@ -26,8 +26,11 @@ import com.example.tprom.MainActivity;
 import com.example.tprom.R;
 import com.example.tprom.group.adapters.AddMemberAdapter;
 import com.example.tprom.properties.Member;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,7 +126,7 @@ public class CreateGroupFragment extends Fragment {
                         String memberName = addMember.getText().toString();
                         String memberRole = addRole.getText().toString();
 
-                        updatedMembers.add(new Member(memberName, memberRole));
+                        updatedMembers.add(new Member(memberName, memberRole,-1));
 
                         rc_member.setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
 
@@ -142,35 +145,50 @@ public class CreateGroupFragment extends Fragment {
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-                char groupId = alphabet[new Random().nextInt(alphabet.length)];
+                DatabaseReference groupReference = dataB.child("groups");
+                groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    long numberOfGroups;
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            numberOfGroups = snapshot.getChildrenCount();
+                        }
 
-                DatabaseReference groupReference = dataB.child("groups").child(String.valueOf(groupId));
+                        String groupId = String.valueOf(numberOfGroups +1);
+                        DatabaseReference updateGroup = dataB.child("groups").child(groupId);
 
-                String teamname = ed_teamname.getText().toString();
+                        String teamname = ed_teamname.getText().toString();
 
-                if(TextUtils.isEmpty(teamname)){
-                    Toast.makeText(getActivity(),"Vui lòng nhập tên cho nhóm!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String description = ed_description.getText().toString();
+                        if(TextUtils.isEmpty(teamname)){
+                            Toast.makeText(getActivity(),"Vui lòng nhập tên cho nhóm!",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String description = ed_description.getText().toString();
 
-                if(TextUtils.isEmpty(description)){
-                    Toast.makeText(getActivity(),"Vui lòng nhập mô tả cho nhóm!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                        if(TextUtils.isEmpty(description)){
+                            Toast.makeText(getActivity(),"Vui lòng nhập mô tả cho nhóm!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                Map<String, Object> groupData = new HashMap<>();
-                groupData.put("groupName", teamname);
-                groupData.put("groupDescription", description);
-                groupData.put("members", updatedMembers);
+                        Map<String, Object> groupData = new HashMap<>();
+                        groupData.put("groupId", String.valueOf(groupId));
+                        groupData.put("groupName", teamname);
+                        groupData.put("groupDescription", description);
+                        groupData.put("members", updatedMembers);
 
-                groupReference.updateChildren(groupData);
+                        updateGroup.updateChildren(groupData);
 
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentGroup, new GroupFragment())
-                        .commitAllowingStateLoss();
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragmentGroup, new GroupFragment())
+                                .commitAllowingStateLoss();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
     }

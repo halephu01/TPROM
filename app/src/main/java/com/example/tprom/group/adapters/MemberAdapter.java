@@ -1,6 +1,7 @@
 package com.example.tprom.group.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.User;
 
 import java.util.List;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
-    private List<User> users;
+    private List<Member> members;
     Context context;
 
-    public MemberAdapter(Context context, List<User> users) {
-        this.users = users;
+    public MemberAdapter(Context context, List<Member> members) {
+        this.members = members;
         this.context = context;
     }
 
@@ -33,15 +35,18 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = users.get(position);
-        holder.tv_name.setText(user.getUsername());
-        if(user.getAvatarUser()!=-1){
-            holder.img_avatar.setImageResource(users.get(position).getAvatarUser());
-        }    }
+        Member member = members.get(position);
+
+        holder.tv_name.setText(member.getName());
+        holder.tv_role.setText(member.getRole());
+        if (member.getAvatar() != -1) {
+            holder.img_avatar.setImageResource(member.getAvatar());
+        }
+    }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return members.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

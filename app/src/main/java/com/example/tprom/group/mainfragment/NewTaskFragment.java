@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +17,33 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
+import com.example.tprom.group.GroupItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NewTaskFragment extends Fragment {
     private static final int REQUEST_CODE = 1;
@@ -41,6 +55,7 @@ public class NewTaskFragment extends Fragment {
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private TextView mStartTimeTextView;
     private TextView mDueTimeTextView;
+    String fileName;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -121,7 +136,75 @@ public class NewTaskFragment extends Fragment {
                 showDateTimePicker(mDueTimeTextView);
             }
         });
+        Bundle bundle3 = getArguments();
 
+        String groupName = bundle3.getString("groupName");
+
+        TextView createTextView = view.findViewById(R.id.create_new_task);
+        EditText ed_taskName=view.findViewById(R.id.ed_taskname);
+        EditText ed_description = view.findViewById(R.id.ed_discription);
+
+        createTextView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick (View v){
+                DatabaseReference groupsRef = FirebaseDatabase.getInstance().getReference().child("groups");
+                groupsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    String groupId;
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
+                            GroupItem taskName = taskSnapshot.getValue(GroupItem.class);
+                            if (taskName.groupName.toString().equals(groupName)) {
+                                groupId = taskName.GroupId();
+                            }
+                        }
+                        DatabaseReference updateTask = FirebaseDatabase.getInstance().getReference("groups").child(groupId);
+                        updateTask.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                DatabaseReference taskRef = groupsRef.child("tasks");
+                                String taskname = ed_taskName.getText().toString();
+                                if (TextUtils.isEmpty(taskname)) {
+                                    Toast.makeText(getActivity(), "Vui lòng nhập tên cho task!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                String discription = ed_description.getText().toString();
+
+                                if (TextUtils.isEmpty(discription)) {
+                                    Toast.makeText(getActivity(), "Vui lòng nhập mô tả cho task!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                String starttime = mStartTimeTextView.getText().toString();
+                                String duetime = mDueTimeTextView.getText().toString();
+
+                                Map<String, Object> taskData = new HashMap<>();
+                                taskData.put("taskName", taskname);
+                                taskData.put("taskDescription", discription);
+                                taskData.put("taskStartTime", starttime);
+                                taskData.put("taskDueTime", duetime);
+                                taskData.put("files", fileName);
+                                taskRef.updateChildren(taskData);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentDetailGroup, new GroupDetailsFragment())
+                        .commit();
+            }
+        });
         return view;
     }
     @Override
@@ -130,7 +213,7 @@ public class NewTaskFragment extends Fragment {
 
         if (requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
             Uri fileUri = data.getData();
-            String fileName = getFileNameFromUri(fileUri); // Lấy tên tệp tin từ Uri
+            fileName = getFileNameFromUri(fileUri); // Lấy tên tệp tin từ Uri
             uploadedFiles.add(fileName);
             adapter.notifyDataSetChanged();
         }

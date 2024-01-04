@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberFragment extends Fragment {
-    ArrayList<User> users;
+    ArrayList<Member> member;
     RecyclerView ListMember;
     TextView tv_members;
     @Override
@@ -47,16 +47,59 @@ public class MemberFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        users=new ArrayList<>();
+        member=new ArrayList<>();
+
         ListMember = view.findViewById(R.id.details_recycle_mem);
         tv_members = view.findViewById(R.id.details_tv_members);
 
-        MemberAdapter memberAdapter= new MemberAdapter(this.getContext(),users);
+        MemberAdapter memberAdapter= new MemberAdapter(this.getContext(),member);
         ListMember.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false));
 
         ListMember.setAdapter(memberAdapter);
         memberAdapter.notifyDataSetChanged();
 
+        TextView tv_groupname = view.findViewById(R.id.mem_groupname);
+        TextView tv_description = view.findViewById(R.id.mem_description);
+
+        Bundle bundle2 = getArguments();
+        if(bundle2!=null){
+            String groupName = bundle2.getString("groupName");
+            String groupDescription = bundle2.getString("groupDescription");
+            tv_groupname.setText(groupName);
+            tv_description.setText(groupDescription);
+
+            DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+            groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                ArrayList<Member> members = new ArrayList<>();
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                        GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
+                        if (memberName.groupName.toString().equals(groupName)) {
+                            members = memberName.getMembers();
+                            members = memberName.getMembers();
+
+                            for (int i = 0; i < members.size(); i++) {
+                                String name = members.get(i).getName();
+                                String role = members.get(i).getRole();
+                                member.add(new Member(name, role, -1));
+                            }
+
+                            String number = String.valueOf(members.size());
+                            tv_members.setText(number + " members");
+                            break;
+                        }
+                    }
+
+                    memberAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
+                }
+            });
+        }
         if (getActivity() != null) {
             MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -70,49 +113,27 @@ public class MemberFragment extends Fragment {
             tv_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+                    Bundle bundle5 = new Bundle();
+                    bundle5.putString("groupName", tv_groupname.getText().toString());
+                    bundle5.putString("groupDescription", tv_description.getText().toString());
+                    groupDetailsFragment.setArguments(bundle5);
+
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_details_members, new GroupDetailsFragment())
+                            .replace(R.id.fragment_details_members, groupDetailsFragment)
+                            .addToBackStack(null)
                             .commit();
+
                     tv_onTop.setText("Details");
                     tv_back.setVisibility(View.GONE);
                     img_avatar.setVisibility(View.VISIBLE);
                 }
+
             });
         }
 
-        Bundle bundle2 = getArguments();
-        if(bundle2!=null){
-            String groupName = bundle2.getString("groupName");
-
-
-            DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
-            groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                ArrayList<Member> members;
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
-                        GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
-                        if (memberName.groupName.toString().equals(groupName)) {
-                           members = memberName.getMembers();
-
-                            members.size();
-                        }
-                    }
-                    for(int i=0;i<members.size();i++){
-                        //users.add(new User(i, members.get(i), "1","1",-1));
-                    }
-                    tv_members.setText(String.valueOf(members.size())+" members");
-                    memberAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("MemberFragment", "Failed to read members: " + databaseError.getMessage());
-                }
-            });
-
-
-
-        }
     }
+
+
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupItem {
-    public String groupName,groupDescription,GroupOwner;
+    public String groupId,groupName,groupDescription,GroupOwner;
     private ArrayList<Member> members;
 
     private int numberOfDeadlines;
@@ -28,14 +28,25 @@ public class GroupItem {
     public GroupItem(String groupName, String groupDescription, String groupOwner) {
         this.groupName = groupName;
         this.groupDescription = groupDescription;
-        this.GroupOwner=groupOwner;
-
+        this.GroupOwner = groupOwner;
     }
 
-    public GroupItem(String groupName, String groupDescription, ArrayList<Member> members) {
+    public GroupItem(String groupIdr,String groupName, String groupDescription, String groupOwner) {
+        this.groupId = groupIdr;
+        this.groupName = groupName;
+        this.groupDescription = groupDescription;
+        this.GroupOwner=groupOwner;
+    }
+
+    public GroupItem(String groupId,String groupName, String groupDescription, ArrayList<Member> members) {
+        this.groupId= groupId;
         this.groupName = groupName;
         this.groupDescription = groupDescription;
         this.members=members;
+    }
+
+    public String GroupId() {
+        return groupId;
     }
 
     public int getNumberOfDeadlines() {
