@@ -9,6 +9,7 @@ public class Task {
     private String classify;
     private Date deadline;
     private float rate;
+
     private Boolean statusTask;
 
     Task(){

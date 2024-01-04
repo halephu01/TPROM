@@ -12,11 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
+import com.example.tprom.UploadFileAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -48,9 +52,10 @@ public class CreateGroupFragment extends Fragment {
         ed_addmem = view.findViewById(R.id.ed_addrole);
         ed_addrole = view.findViewById(R.id.ed_addrole);
 
-        tv_addRole = view.findViewById(R.id.tv_addRole);
-        tv_addMem = view.findViewById(R.id.tv_addMem);
+        tv_addRole = view.findViewById(R.id.ed_addrole);
+        tv_addMem = view.findViewById(R.id.ed_addmem);
         tv_create = view.findViewById(R.id.create);
+
 
 
 

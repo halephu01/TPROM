@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.tprom.NewTaskFragment;
+import com.example.tprom.TaskInfor;
 import com.example.tprom.group.CreateGroupFragment;
 import com.example.tprom.group.GroupFragment;
 import com.example.tprom.notification.NotificationFragment;
+
 
 public class SlidePageAdapter extends FragmentStateAdapter {
     public SlidePageAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -19,7 +22,7 @@ public class SlidePageAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch(position){
             case 1:
-                return new CalendarFragment();
+                return new TaskInfor();
             case 2:
                 return new NotificationFragment();
             case 3:
