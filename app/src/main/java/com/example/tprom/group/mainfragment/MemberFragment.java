@@ -90,10 +90,8 @@ public class MemberFragment extends Fragment {
                             break;
                         }
                     }
-
                     memberAdapter.notifyDataSetChanged();
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());

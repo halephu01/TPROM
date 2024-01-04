@@ -46,6 +46,8 @@ public class GroupDetailsFragment extends Fragment {
     ArrayList<User> users;
     ArrayList<Task> tasks;
 
+    MiniMemberAdapter miniMemberAdapter;
+
     boolean isAdmin;
 
     @Override
@@ -77,7 +79,7 @@ public class GroupDetailsFragment extends Fragment {
 
         TaskAdapter taskAdapter = new TaskAdapter(this.getContext(),tasks,isAdmin);
 
-        MiniMemberAdapter miniMemberAdapter= new MiniMemberAdapter(this.getContext(),users);
+        miniMemberAdapter= new MiniMemberAdapter(this.getContext(),users);
 
         ListTask.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
 
@@ -122,22 +124,12 @@ public class GroupDetailsFragment extends Fragment {
         }
 
         Bundle bundle = getArguments();
-        if(bundle!=null){
+        if(bundle != null){
             String groupName = bundle.getString("groupName");
-            String description = bundle.getString("description");
+            String description = bundle.getString("groupDescription");
 
             GroupName.setText(groupName);
             Description.setText(description);
-        }
-
-        Bundle bundle5 = getArguments();
-        if(bundle5 != null && GroupName.getText().toString() == null){
-            String groupName = bundle5.getString("groupName");
-            String description = bundle5.getString("groupDescription");
-
-            GroupName.setText(groupName);
-            Description.setText(description);
-
         }
 
         DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
@@ -149,7 +141,6 @@ public class GroupDetailsFragment extends Fragment {
                     GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
                     if (memberName.groupName.toString().equals(GroupName.getText().toString())) {
                         members = memberName.getMembers();
-
                         for (Member member : members) {
                             String name = member.getName();
                             users.add(new User(0,name,"1","1",-1));
@@ -264,6 +255,9 @@ public class GroupDetailsFragment extends Fragment {
                                 // Handle onCancelled
                             }
                         });
+
+                        users.add(new User(0,memberName,"1","1",-1));
+                        miniMemberAdapter.notifyDataSetChanged();
                     }
                 });
 

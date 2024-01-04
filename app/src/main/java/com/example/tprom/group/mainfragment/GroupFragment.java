@@ -68,7 +68,6 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
 
             DatabaseReference groupsRef = FirebaseDatabase.getInstance().getReference("groups");
             groupsRef.addValueEventListener(new ValueEventListener() {
-                ArrayList<Member> members;
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     groupItems.clear();
@@ -79,19 +78,17 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                         if (group != null) {
                             String groupName = group.GroupName();
                             String groupDescription = group.GroupDescription();
-                            String groupId = group.GroupId();
-                            members = group.getMembers();
+                            ArrayList<Member> members = group.getMembers();
 
-                            for(Member member : members){
+                            for (Member member : members) {
                                 String role = member.getRole();
                                 String name = member.getName();
 
-                                if(role == "Leader"){
-                                    Log.d("Leader ", "Name "+ name);
+                                if ("Leader".equals(role)) {
+                                    Log.d("Leader", "Name " + name);
                                     groupItems.add(new GroupItem(groupName, groupDescription, name));
                                     break;
-                                }
-                                else {
+                                } else {
                                     groupItems.add(new GroupItem(groupName, groupDescription));
                                     break;
                                 }
@@ -105,6 +102,7 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                     Toast.makeText(getContext(), "Lỗi khi truy xuất dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
 
         tv_create.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +128,8 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
         Bundle bundle = new Bundle();
         bundle.putString("groupName", clickedGroup.GroupName());
         bundle.putString("groupOwner", clickedGroup.GroupOwner());
-        bundle.putString("description", clickedGroup.GroupDescription());
-        bundle.putString("groupId", clickedGroup.GroupId());
+        bundle.putString("groupDescription", clickedGroup.GroupDescription());
 
-        // Tạo và hiển thị GroupDetailsFragment
         GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
         groupDetailsFragment.setArguments(bundle);
 
