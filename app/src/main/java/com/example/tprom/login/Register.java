@@ -85,9 +85,11 @@ public class Register extends AppCompatActivity {
 
                 Map<String, Object> userData = new HashMap<>();
 
+                userData.put("userId", userId);
                 userData.put("email", email);
                 userData.put("password",password);
                 userData.put("username", username);
+                userData.put("avatar", "-1");
                 userReference.setValue(userData);
 
                 Toast.makeText(this, "Tài khoản tạo thành công!", Toast.LENGTH_SHORT).show();

@@ -46,7 +46,6 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_group, container, false);
     }
 
@@ -80,29 +79,32 @@ public class GroupFragment extends Fragment implements GroupAdapter.RecyclerView
                             String groupDescription = group.GroupDescription();
                             ArrayList<Member> members = group.getMembers();
 
+                            boolean isLeaderFound = false; // Biến để kiểm tra xem đã tìm thấy leader chưa
+
                             for (Member member : members) {
                                 String role = member.getRole();
                                 String name = member.getName();
 
-                                if ("Leader".equals(role)) {
-                                    Log.d("Leader", "Name " + name);
+                                if ("leader".equals(role)) {
                                     groupItems.add(new GroupItem(groupName, groupDescription, name));
-                                    break;
-                                } else {
-                                    groupItems.add(new GroupItem(groupName, groupDescription));
+                                    isLeaderFound = true;
                                     break;
                                 }
+                            }
+
+                            if (!isLeaderFound) {
+                                groupItems.add(new GroupItem(groupName, groupDescription));
                             }
                         }
                     }
                     groupAdapter.notifyDataSetChanged();
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Toast.makeText(getContext(), "Lỗi khi truy xuất dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
 
         tv_create.setOnClickListener(new View.OnClickListener() {

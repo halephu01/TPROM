@@ -28,6 +28,8 @@ import com.example.tprom.group.adapters.TaskAdapter;
 import com.example.tprom.properties.Member;
 import com.example.tprom.properties.Task;
 import com.example.tprom.properties.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GroupDetailsFragment extends Fragment {
     ImageView GroupAvatar;
@@ -47,8 +50,6 @@ public class GroupDetailsFragment extends Fragment {
     ArrayList<Task> tasks;
 
     MiniMemberAdapter miniMemberAdapter;
-
-    boolean isAdmin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,29 +76,18 @@ public class GroupDetailsFragment extends Fragment {
 
         tasks =new ArrayList<>();
         users=new ArrayList<>();
-        isAdmin=true;
-
-        TaskAdapter taskAdapter = new TaskAdapter(this.getContext(),tasks,isAdmin);
 
         miniMemberAdapter= new MiniMemberAdapter(this.getContext(),users);
 
-        ListTask.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
-
         ListMember.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.HORIZONTAL,false));
 
-        ListTask.setAdapter(taskAdapter);
         ListMember.setAdapter(miniMemberAdapter);
 
-        taskAdapter.notifyDataSetChanged();
         miniMemberAdapter.notifyDataSetChanged();
 
-        //Neu la admin thi hien 2 button
-        if(isAdmin){
-            setButton();
-        }else{
-            AddTask.setVisibility(View.GONE);
-            AddMember.setVisibility(View.GONE);
-        }
+        ListTask.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (getActivity() != null) {
             MainActivity mainActivity = (MainActivity) getActivity();
@@ -130,6 +120,65 @@ public class GroupDetailsFragment extends Fragment {
 
             GroupName.setText(groupName);
             Description.setText(description);
+        }
+
+        if (user != null) {
+            String uid = user.getUid();
+            DatabaseReference getUser = FirebaseDatabase.getInstance().getReference("users").child(uid).child("username");
+            getUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                String username;
+                boolean isAdmin = false;
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        username = dataSnapshot.getValue(String.class);
+                    }
+                    DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+                    groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        ArrayList<Member> members = new ArrayList<>();
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                                GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
+                                if (memberName.groupName.toString().equals(GroupName.getText().toString())) {
+                                    members = memberName.getMembers();
+                                    for (Member member : members) {
+                                        String name = member.getName();
+                                        if (name.equals(username) && member.getRole().equals("leader")) {
+                                            isAdmin = true;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+
+                            if (isAdmin) {
+                                setButton();
+                                AddMember.setVisibility(View.VISIBLE);
+                                AddTask.setVisibility(View.VISIBLE);
+                            } else {
+                                AddMember.setVisibility(View.GONE);
+                                AddTask.setVisibility(View.GONE);
+                            }
+
+                            TaskAdapter taskAdapter = new TaskAdapter(getContext(), tasks, isAdmin);
+                            ListTask.setAdapter(taskAdapter);
+                            taskAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Firebase", "Error getting data", databaseError.toException());
+                }
+            });
         }
 
         DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
@@ -190,15 +239,6 @@ public class GroupDetailsFragment extends Fragment {
                         .commit();
             }
         });
-
-        InitSample();
-    }
-
-    private void InitSample(){
-        tasks.add(new Task(1,1,1,"Task 1","hihihaha",0.6,new Date(123,11,23,12,23),0,1,users));
-        tasks.add(new Task(2,1,1,"Task 2","hahahoho",0,new Date(123,11,23,12,23),0,1,users));
-        tasks.add(new Task(2,1,1,"Task 3","hohohehe",0.9,new Date(123,11,23,12,23),0,1,users));
-        tasks.add(new Task(2,1,1,"Task 4","hohohehehaha",0.9,new Date(123,11,23,12,23),0,1,users));
     }
 
     private void setButton(){
@@ -252,7 +292,6 @@ public class GroupDetailsFragment extends Fragment {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle onCancelled
                             }
                         });
 

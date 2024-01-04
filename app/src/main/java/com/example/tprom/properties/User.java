@@ -1,9 +1,5 @@
 package com.example.tprom.properties;
 
-import android.media.Image;
-
-import java.util.ArrayList;
-
 public class User {
     private int userId;
     private String username;
@@ -14,6 +10,13 @@ public class User {
     public User() {
     }
 
+    public User(String username, String email, String password, int avatarUser) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.avatarUser=avatarUser;
+    }
+
     public User(int userId, String username, String email, String password, int avatarUser) {
         this.userId = userId;
         this.username = username;
@@ -21,6 +24,8 @@ public class User {
         this.password = password;
         this.avatarUser=avatarUser;
     }
+
+
 
     public void setUserId(int userId){
         this.userId=userId;
