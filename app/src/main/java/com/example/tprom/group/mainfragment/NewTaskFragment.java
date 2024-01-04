@@ -157,43 +157,33 @@ public class NewTaskFragment extends Fragment {
                             GroupItem taskName = taskSnapshot.getValue(GroupItem.class);
                             if (taskName.groupName.toString().equals(groupName)) {
                                 groupId = taskName.GroupId();
-                            }
-                        }
-                        DatabaseReference updateTask = FirebaseDatabase.getInstance().getReference("groups").child(groupId);
-                        updateTask.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                DatabaseReference taskRef = groupsRef.child("tasks");
+                                DatabaseReference updateTask = FirebaseDatabase.getInstance().getReference("groups").child(groupId);
+
+                                DatabaseReference taskRef = updateTask.child("tasks");
                                 String taskname = ed_taskName.getText().toString();
                                 if (TextUtils.isEmpty(taskname)) {
                                     Toast.makeText(getActivity(), "Vui lòng nhập tên cho task!", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
-                                String discription = ed_description.getText().toString();
+                                    String discription = ed_description.getText().toString();
 
-                                if (TextUtils.isEmpty(discription)) {
-                                    Toast.makeText(getActivity(), "Vui lòng nhập mô tả cho task!", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                String starttime = mStartTimeTextView.getText().toString();
-                                String duetime = mDueTimeTextView.getText().toString();
+                                    if (TextUtils.isEmpty(discription)) {
+                                        Toast.makeText(getActivity(), "Vui lòng nhập mô tả cho task!", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    String starttime = mStartTimeTextView.getText().toString();
+                                    String duetime = mDueTimeTextView.getText().toString();
 
                                 Map<String, Object> taskData = new HashMap<>();
                                 taskData.put("taskName", taskname);
-                                taskData.put("taskDescription", discription);
-                                taskData.put("taskStartTime", starttime);
-                                taskData.put("taskDueTime", duetime);
-                                taskData.put("files", fileName);
+                                    taskData.put("taskDescription", discription);
+                                    taskData.put("taskStartTime", starttime);
+                                    taskData.put("taskDueTime", duetime);
+                                    taskData.put("files", fileName);
                                 taskRef.updateChildren(taskData);
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 

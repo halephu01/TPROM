@@ -192,17 +192,9 @@ public class GroupDetailsFragment extends Fragment {
         tv_task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle3= new Bundle();
-                String groupName = GroupName.getText().toString();
-
-                bundle3.putString("groupName",groupName);
-
-                NewTaskFragment newTaskFragment = new NewTaskFragment();
-                newTaskFragment.setArguments(bundle3);
-
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentDetailGroup,newTaskFragment)
+                        .replace(R.id.fragmentDetailGroup,new TaskFragment())
                         .addToBackStack(null)
                         .commit();
             }
@@ -284,9 +276,16 @@ public class GroupDetailsFragment extends Fragment {
         AddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            getActivity().getSupportFragmentManager()
+                Bundle bundle3= new Bundle();
+                String groupName = GroupName.getText().toString();
+
+                bundle3.putString("groupName",groupName);
+
+                NewTaskFragment newTaskFragment = new NewTaskFragment();
+                newTaskFragment.setArguments(bundle3);
+                getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentDetailGroup, new NewTaskFragment())
+                        .replace(R.id.fragmentDetailGroup, newTaskFragment)
                         .commit();
             }
         });
