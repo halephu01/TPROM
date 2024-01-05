@@ -12,16 +12,4 @@ public class Attend {
         this.groupId=groupId;
         this.taskId=taskId;
     }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
 }

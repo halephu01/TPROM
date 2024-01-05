@@ -49,5 +49,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("androidx.activity:activity-ktx:1.4.0")
     implementation ("androidx.fragment:fragment-ktx:1.6.0")
-
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation ("at.blogc:expandabletextview:1.0.5")
 }

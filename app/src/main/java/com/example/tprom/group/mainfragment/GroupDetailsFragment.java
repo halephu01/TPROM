@@ -232,9 +232,19 @@ public class GroupDetailsFragment extends Fragment {
         tv_task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TaskFragment taskFragment = new TaskFragment();
+                Bundle bundle2= new Bundle();
+                String groupName = GroupName.getText().toString();
+                String description = Description.getText().toString();
+
+                bundle2.putString("groupName",groupName);
+                bundle2.putString("groupDescription",description);
+
+                taskFragment.setArguments(bundle2);
+
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentDetailGroup,new TaskFragment())
+                        .replace(R.id.fragmentDetailGroup, taskFragment)
                         .addToBackStack(null)
                         .commit();
             }

@@ -1,5 +1,4 @@
-package com.example.tprom;
-
+package com.example.tprom.group.mainfragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tprom.R;
+import com.example.tprom.RecyclerViewClickListener;
+
 import java.util.List;
 
 public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -21,9 +23,15 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<String> fileList;
     private Context context;
 
+    private RecyclerViewClickListener itemClickListener;
+
     public UploadFileAdapter(List<String> fileList, Context context) {
         this.fileList = fileList;
         this.context = context;
+    }
+
+    public void setItemClickListener(RecyclerViewClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -46,7 +54,15 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             UploadViewHolder uploadViewHolder = (UploadViewHolder) holder;
             uploadViewHolder.textView.setText("Upload File");
 
-            // ...
+            // Xử lý sự kiện khi người dùng nhấn vào element upload
+            uploadViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(v, 0); // Gọi onItemClick với position là 0
+                    }
+                }
+            });
         } else {
             // Xử lý logic cho các item khác
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
@@ -56,7 +72,7 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Xử lý tương ứng với item được chọn
+
                 }
             });
         }

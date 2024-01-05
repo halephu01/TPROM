@@ -1,4 +1,5 @@
-package com.example.tprom;
+package com.example.tprom.group.mainfragment;
+
 
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tprom.R;
 
 import java.util.List;
 

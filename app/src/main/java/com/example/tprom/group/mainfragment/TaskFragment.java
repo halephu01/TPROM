@@ -26,6 +26,9 @@ import java.util.Date;
 public class TaskFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Task> tasks;
+
+    TextView tv_groupName,tv_description;
+
     boolean isAdmin;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,10 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        tv_description=view.findViewById(R.id.tv_description);
+        tv_groupName=view.findViewById(R.id.tv_groupName);
+
         recyclerView=view.findViewById(R.id.task_rv);
         isAdmin=true;
         tasks=new ArrayList<>();
@@ -63,15 +70,30 @@ public class TaskFragment extends Fragment {
             tv_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("groupName", tv_groupName.getText().toString());
+                    bundle.putString("groupDescription", tv_description.getText().toString());
+                    groupDetailsFragment.setArguments(bundle);
+
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragmentDetailGroup, new GroupDetailsFragment())
+                            .replace(R.id.fragmentDetailGroup, groupDetailsFragment)
                             .commit();
                     tv_onTop.setText("Details");
                     tv_back.setVisibility(View.GONE);
                     img_avatar.setVisibility(View.VISIBLE);
                 }
             });
+        }
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String groupName = bundle.getString("groupName");
+            String description = bundle.getString("groupDescription");
+            tv_groupName.setText(groupName);
+            tv_description.setText(description);
         }
     }
 }
