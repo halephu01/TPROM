@@ -179,8 +179,6 @@ public class TaskFragment extends Fragment {
                                     // Xử lý khi có lỗi
                                 }
                             });
-
-
                         }
 
                         @Override
@@ -194,39 +192,5 @@ public class TaskFragment extends Fragment {
                 }
             });
         }
-
-        DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
-        taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            ArrayList<Member> assignedUser = new ArrayList<>();
-            List<String> files;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot taskSnapshot : dataSnapshot.getChildren()) {
-                        Task task = taskSnapshot.getValue(Task.class);
-                        if (task != null) {
-                            if(task.getGroupName().equals(tv_groupName.getText().toString())){
-                                String nametask = task.getTaskName();
-                                String description = task.getTaskDescription();
-                                assignedUser = task.getAssignedUsers();
-                                files = task.getFiles();
-                                int numberOfFiles = files.size();
-                                String dueTime = task.getTaskDueTime();
-                                tasks.add(new Task("1",nametask,description,0,dueTime,numberOfFiles,assignedUser));
-
-                                Log.d("TaskFragment", "onDataChange: " + " here");
-                            }
-                        }
-
-                    }
-                }
-                taskAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
-            }
-        });
     }
 }
