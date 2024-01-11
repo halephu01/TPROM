@@ -24,6 +24,7 @@ import com.example.tprom.R;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.group.adapters.MemberAdapter;
 import com.example.tprom.group.adapters.MiniMemberAdapter;
+import com.example.tprom.group.adapters.MiniMemberAdapter2;
 import com.example.tprom.group.adapters.TaskAdapter;
 import com.example.tprom.properties.Member;
 import com.example.tprom.properties.Task;
@@ -36,8 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,6 +51,7 @@ public class GroupDetailsFragment extends Fragment {
     ArrayList<Task> tasks;
 
     MiniMemberAdapter miniMemberAdapter;
+    TaskAdapter taskAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,9 @@ public class GroupDetailsFragment extends Fragment {
         miniMemberAdapter.notifyDataSetChanged();
 
         ListTask.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
+        taskAdapter = new TaskAdapter(this.getContext(),tasks, false);
+        ListTask.setAdapter(taskAdapter);
+        taskAdapter.notifyDataSetChanged();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -121,7 +126,6 @@ public class GroupDetailsFragment extends Fragment {
             GroupName.setText(groupName);
             Description.setText(description);
         }
-
         if (user != null) {
             String uid = user.getUid();
             DatabaseReference getUser = FirebaseDatabase.getInstance().getReference("users").child(uid).child("username");
@@ -161,6 +165,52 @@ public class GroupDetailsFragment extends Fragment {
                                 AddMember.setVisibility(View.GONE);
                                 AddTask.setVisibility(View.GONE);
                             }
+
+                            DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
+                            taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                ArrayList<Member> assignedUser = new ArrayList<>();
+                                List<String> files;
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        // Xóa danh sách tasks trước khi thêm mới
+                                        tasks.clear();
+
+                                        for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
+                                            Task task = taskSnapshot.getValue(Task.class);
+                                            if (task != null && task.getGroupName().equals(GroupName.getText().toString())) {
+                                                String nametask = task.getTaskName();
+                                                String description = task.getTaskDescription();
+                                                assignedUser = task.getAssignedUsers();
+                                                int numberOfFiles = task.getFiles().size();
+                                                String dueTime = task.getTaskDueTime();
+                                                int statusTask = task.getStatus();
+                                                double progressPercent = task.getProgressPercent();
+
+                                                // Kiểm tra quyền isAdmin mỗi khi thêm công việc vào danh sách
+                                                if (!isAdmin) {
+                                                    tasks.add(new Task("1", nametask, description, statusTask, numberOfFiles, dueTime));
+                                                } else {
+                                                    tasks.add(new Task("1", nametask, description, progressPercent, dueTime, numberOfFiles, assignedUser));
+                                                }
+                                            }
+                                        }
+
+
+                                        TaskAdapter taskAdapter = new TaskAdapter(getContext(), tasks, isAdmin);
+                                        ListTask.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+                                        ListTask.setAdapter(taskAdapter);
+
+                                        taskAdapter.notifyDataSetChanged();
+                                    }
+                                }
+
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Xử lý khi có lỗi
+                                }
+                            });
 
                             TaskAdapter taskAdapter = new TaskAdapter(getContext(), tasks, isAdmin);
                             ListTask.setAdapter(taskAdapter);
@@ -204,6 +254,7 @@ public class GroupDetailsFragment extends Fragment {
                 Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
             }
         });
+
 
         TextView tv_member = view.findViewById(R.id.groupdetail_tv_member);
         TextView tv_task = view.findViewById(R.id.groupdetail_tv_task);
@@ -319,13 +370,13 @@ public class GroupDetailsFragment extends Fragment {
         AddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle3= new Bundle();
-                String groupName = GroupName.getText().toString();
-
-                bundle3.putString("groupName",groupName);
-
                 NewTaskFragment newTaskFragment = new NewTaskFragment();
-                newTaskFragment.setArguments(bundle3);
+                Bundle bundle2= new Bundle();
+                String groupName = GroupName.getText().toString();
+                String description = Description.getText().toString();
+                bundle2.putString("groupName",groupName);
+                bundle2.putString("groupDescription",description);
+                newTaskFragment.setArguments(bundle2);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentDetailGroup, newTaskFragment)

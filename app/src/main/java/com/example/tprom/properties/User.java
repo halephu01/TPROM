@@ -25,8 +25,6 @@ public class User {
         this.avatarUser=avatarUser;
     }
 
-
-
     public void setUserId(int userId){
         this.userId=userId;
     }

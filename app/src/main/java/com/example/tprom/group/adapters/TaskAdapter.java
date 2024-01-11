@@ -37,17 +37,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task task=tasks.get(position);
-        holder.Title.setText(task.getNameTask());
-        holder.Description.setText(task.getDescribeTask());
-        holder.Time.setText(task.getDeadline());
-        MiniMemberAdapter2 miniMemberAdapter=new MiniMemberAdapter2(this.context,task.getMember());
+        holder.Title.setText(task.getTaskName());
+        holder.Description.setText(task.getTaskDescription());
+        holder.Time.setText(task.getTaskDueTime());
+        MiniMemberAdapter2 miniMemberAdapter=new MiniMemberAdapter2(this.context,task.getAssignedUsers());
         holder.MiniAvatar.setAdapter(miniMemberAdapter);
         holder.MiniAvatar.setLayoutManager(new LinearLayoutManager(this.context,RecyclerView.HORIZONTAL,false));
         miniMemberAdapter.notifyDataSetChanged();
+
         //Neu co tep dinh kem thi hien thi so luong
-        if(task.getNumberOfAttachment()>0){
+        if(task.getNumberOfFiles()>0){
             holder.NumberOfAttachment.setVisibility(View.VISIBLE);
-            holder.NumberOfAttachment.setText(Integer.toString(task.getNumberOfAttachment()));
+            holder.NumberOfAttachment.setText(Integer.toString(task.getNumberOfFiles()));
         }
         //Neu la admin thi xem duoc muc do hoan thanh cua task
         if(isAdmin){
@@ -56,11 +57,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             holder.ProgressBarLayout.setVisibility(View.VISIBLE);
             holder.progressBar.setProgress(progress);
             holder.ProgressPercent.setText(Integer.toString(progress)+"%");
+        }else{
+            holder.ProgressBarLayout.setVisibility(View.GONE);
         }
-        if(task.getStatusTask()==-1){
+        if(task.getStatus()==-1){
             holder.background.setBackgroundResource(R.drawable.shape_task_uncompleted);
         }
-        else if(task.getStatusTask()==1){
+        else if(task.getStatus()==1){
             holder.background.setBackgroundResource(R.drawable.shape_task_completed);
 
         }

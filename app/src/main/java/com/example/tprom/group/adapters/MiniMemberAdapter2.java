@@ -10,15 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.User;
 
 import java.util.ArrayList;
 
 public class MiniMemberAdapter2 extends RecyclerView.Adapter<MiniMemberAdapter2.MiniMemberHolder> {
     private Context context;
-    private ArrayList<User> users;
+    private ArrayList<Member> users;
 
-    public MiniMemberAdapter2(Context context, ArrayList<User> users) {
+    public MiniMemberAdapter2(Context context, ArrayList<Member> users) {
         this.context = context;
         this.users = users;
     }
@@ -32,15 +33,20 @@ public class MiniMemberAdapter2 extends RecyclerView.Adapter<MiniMemberAdapter2.
 
     @Override
     public void onBindViewHolder(@NonNull MiniMemberHolder holder, int position) {
-        User user=users.get(position);
-        if(user.getAvatarUser()!=-1){
-            holder.avatar.setImageResource(users.get(position).getAvatarUser());
+        Member user = users.get(position);
+        if (user != null) {
+            holder.avatar.setImageResource(R.drawable.icon_user02);
+            // Thực hiện các thao tác khác với đối tượng user
         }
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        if (users != null) {
+            return users.size();
+        } else {
+            return 0; // hoặc một giá trị mặc định nếu danh sách là null
+        }
     }
 
     static class MiniMemberHolder extends RecyclerView.ViewHolder{

@@ -1,4 +1,4 @@
-package com.example.tprom.group.mainfragment;
+package com.example.tprom.group.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -52,7 +52,7 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder.getItemViewType() == VIEW_TYPE_UPLOAD) {
             // Xử lý logic cho element upload
             UploadViewHolder uploadViewHolder = (UploadViewHolder) holder;
-            uploadViewHolder.textView.setText("Upload File");
+            uploadViewHolder.tv_upload.setText("Upload File");
 
             // Xử lý sự kiện khi người dùng nhấn vào element upload
             uploadViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,8 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // Xử lý logic cho các item khác
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             String fileName = fileList.get(position - 1); // Trừ 1 vì có một element upload
-            itemViewHolder.textView.setText(fileName);
+            itemViewHolder.tv_file_name.setText(fileName);
+
             // Xử lý sự kiện khi người dùng nhấn vào item
             itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,22 +94,22 @@ public class UploadFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public static class UploadViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView textView;
+        ImageView img_upload;
+        TextView tv_upload;
 
         public UploadViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            textView = itemView.findViewById(R.id.textView);
+            img_upload = itemView.findViewById(R.id.img_upload_file);
+            tv_upload = itemView.findViewById(R.id.tv_upload_file);
         }
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView tv_file_name;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            tv_file_name = itemView.findViewById(R.id.tv_file_name);
         }
     }
 

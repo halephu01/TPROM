@@ -3,69 +3,95 @@ package com.example.tprom.properties;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Task {
-    private int taskId, groupId,userid;
-    private String nameTask;
-    private String describeTask;
+    private String taskId;
+    private String taskName, groupName;
+    private String taskDescription;
     private double ProgressPercent;
-    private Date deadline;
-    private static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    private int statusTask; //-1: khong hoan thanh, 0: dang lam, 1: hoan thanh
-    private int NumberOfAttachment;
-    private ArrayList<User> member;
+    private String taskDueTime;
+    //private static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private int status; //-1: khong hoan thanh, 0: dang lam, 1: hoan thanh
+    private List<String> files;
+    private int numberOfFiles;
+    private ArrayList<Member> assignedUsers;
 
-    public Task(int taskId, int groupId, int userid, String nameTask, String describeTask, double ProgressPercent, Date deadline, int statusTask, int numberOfAttachment, ArrayList<User> member) {
-        this.taskId = taskId;
-        this.groupId = groupId;
-        this.userid = userid;
-        this.nameTask = nameTask;
-        this.describeTask = describeTask;
-        this.ProgressPercent = ProgressPercent;
-        this.deadline = deadline;
-        this.statusTask = statusTask;
-        NumberOfAttachment = numberOfAttachment;
-        this.member = member;
+    public Task() {
     }
 
-    public int getTaskId() {
+    public Task(String taskId,String taskName, String taskDescription, double ProgressPercent, String taskDueTime, int numberOfFiles, ArrayList<Member> assignedUsers) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.ProgressPercent = ProgressPercent;
+        this.taskDueTime = taskDueTime;
+        this.numberOfFiles = numberOfFiles;
+        this.assignedUsers = assignedUsers;
+    }
+
+    public Task (String taskId, String taskName, String taskDescription,List<String> files, double ProgressPercent, String taskDueTime, ArrayList<Member> assignedUsers, String groupName) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.ProgressPercent = ProgressPercent;
+        this.taskDueTime = taskDueTime;
+        this.assignedUsers = assignedUsers;
+        this.groupName = groupName;
+        this.files = files;
+    }
+
+    public Task(String taskId, String taskName, String taskDescription, int status, int numberOfFiles, String taskDueTime ) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.status = status;
+        this.taskDueTime = taskDueTime;
+        this.numberOfFiles = numberOfFiles;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
+    }
+
+    public void setNumberOfFiles(int numberOfFiles) {
+        this.numberOfFiles = numberOfFiles;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public int getNumberOfFiles() {
+        return numberOfFiles;
+    }
+
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
-    public int getUserid() {
-        return userid;
+    public String getTaskDescription() {
+        return taskDescription;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
-    }
-
-    public String getNameTask() {
-        return nameTask;
-    }
-
-    public void setNameTask(String nameTask) {
-        this.nameTask = nameTask;
-    }
-
-    public String getDescribeTask() {
-        return describeTask;
-    }
-
-    public void setDescribeTask(String describeTask) {
-        this.describeTask = describeTask;
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
     }
 
     public double getProgressPercent() {
@@ -76,35 +102,36 @@ public class Task {
         this.ProgressPercent = ProgressPercent;
     }
 
-    public String getDeadline() {
-        return simpleDateFormat.format(deadline);
+//    public String getTaskDueTime() {
+//        return simpleDateFormat.format(taskDueTime);
+//    }
+
+
+    public String getTaskDueTime() {
+        return taskDueTime;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public void setTaskDueTime(String taskDueTime) {
+        this.taskDueTime = taskDueTime;
     }
 
-    public int getStatusTask() {
-        return statusTask;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusTask(int statusTask) {
-        this.statusTask = statusTask;
+    public void setStatus(int statusTask) {
+        this.status = statusTask;
     }
 
-    public int getNumberOfAttachment() {
-        return NumberOfAttachment;
+    public List<String> getFiles() {
+        return files;
     }
 
-    public void setNumberOfAttachment(int numberOfAttachment) {
-        NumberOfAttachment = numberOfAttachment;
+    public ArrayList<Member> getAssignedUsers() {
+        return assignedUsers;
     }
 
-    public ArrayList<User> getMember() {
-        return member;
-    }
-
-    public void setMember(ArrayList<User> member) {
-        this.member = member;
+    public void setUsers(ArrayList<Member> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 }

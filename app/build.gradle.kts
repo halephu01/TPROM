@@ -51,4 +51,6 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.6.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("at.blogc:expandabletextview:1.0.5")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+
 }

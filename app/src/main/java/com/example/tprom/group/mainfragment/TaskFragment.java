@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,22 @@ import android.widget.TextView;
 
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
+import com.example.tprom.group.GroupItem;
 import com.example.tprom.group.adapters.TaskAdapter;
+import com.example.tprom.properties.Member;
 import com.example.tprom.properties.Task;
 import com.example.tprom.properties.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TaskFragment extends Fragment {
     RecyclerView recyclerView;
@@ -95,5 +106,127 @@ public class TaskFragment extends Fragment {
             tv_groupName.setText(groupName);
             tv_description.setText(description);
         }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            DatabaseReference getUser = FirebaseDatabase.getInstance().getReference("users").child(uid).child("username");
+            getUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                String username;
+                boolean isAdmin = false;
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        username = dataSnapshot.getValue(String.class);
+                    }
+                    DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+                    groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        ArrayList<Member> members = new ArrayList<>();
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                                GroupItem memberName = memberSnapshot.getValue(GroupItem.class);
+                                if (memberName.groupName.toString().equals(tv_groupName.getText().toString())) {
+                                    members = memberName.getMembers();
+                                    for (Member member : members) {
+                                        String name = member.getName();
+                                        if (name.equals(username) && member.getRole().equals("leader")) {
+                                            isAdmin = true;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+
+                            boolean finalIsAdmin = isAdmin;
+                            DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
+                            taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        // Xóa danh sách tasks trước khi thêm mới
+                                        tasks.clear();
+                                        for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
+                                            Task task = taskSnapshot.getValue(Task.class);
+                                            if (task != null && task.getGroupName().equals(tv_groupName.getText().toString())) {
+                                                String nametask = task.getTaskName();
+                                                String description = task.getTaskDescription();
+                                                members = task.getAssignedUsers();
+                                                int numberOfFiles = task.getFiles().size();
+                                                String dueTime = task.getTaskDueTime();
+                                                int statusTask = task.getStatus();
+                                                double progressPercent = task.getProgressPercent();
+
+                                                // Kiểm tra quyền isAdmin mỗi khi thêm công việc vào danh sách
+                                                if (!finalIsAdmin) {
+                                                    tasks.add(new Task("1", nametask, description, statusTask, numberOfFiles, dueTime));
+                                                } else {
+                                                    tasks.add(new Task("1", nametask, description, progressPercent, dueTime, numberOfFiles, members));
+                                                }
+                                            }
+                                        }
+                                        TaskAdapter taskAdapter=new TaskAdapter(getContext(),tasks,finalIsAdmin);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+                                        recyclerView.setAdapter(taskAdapter);
+                                        // Gọi notifyDataSetChanged() ở đây để cập nhật RecyclerView
+                                        taskAdapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Xử lý khi có lỗi
+                                }
+                            });
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
+
+        DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
+        taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<Member> assignedUser = new ArrayList<>();
+            List<String> files;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot taskSnapshot : dataSnapshot.getChildren()) {
+                        Task task = taskSnapshot.getValue(Task.class);
+                        if (task != null) {
+                            if(task.getGroupName().equals(tv_groupName.getText().toString())){
+                                String nametask = task.getTaskName();
+                                String description = task.getTaskDescription();
+                                assignedUser = task.getAssignedUsers();
+                                files = task.getFiles();
+                                int numberOfFiles = files.size();
+                                String dueTime = task.getTaskDueTime();
+                                tasks.add(new Task("1",nametask,description,0,dueTime,numberOfFiles,assignedUser));
+
+                                Log.d("TaskFragment", "onDataChange: " + " here");
+                            }
+                        }
+
+                    }
+                }
+                taskAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("GroupFragment", "Failed to read members: " + databaseError.getMessage());
+            }
+        });
     }
 }
