@@ -11,41 +11,46 @@ public class Task {
     private String taskDescription;
     private double ProgressPercent;
     private String taskDueTime;
+    private String taskStartTime;
     //private static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private int status; //-1: khong hoan thanh, 0: dang lam, 1: hoan thanh
     private List<String> files;
     private int numberOfFiles;
     private ArrayList<Member> assignedUsers;
 
+
     public Task() {
     }
 
-    public Task(String taskId,String taskName, String taskDescription, double ProgressPercent, String taskDueTime, int numberOfFiles, ArrayList<Member> assignedUsers) {
+    public Task(String taskId,String taskName, String taskDescription, double ProgressPercent,String taskStartTime, String taskDueTime, int numberOfFiles, ArrayList<Member> assignedUsers) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.ProgressPercent = ProgressPercent;
+        this.taskStartTime = taskStartTime;
         this.taskDueTime = taskDueTime;
         this.numberOfFiles = numberOfFiles;
         this.assignedUsers = assignedUsers;
     }
 
-    public Task (String taskId, String taskName, String taskDescription,List<String> files, double ProgressPercent, String taskDueTime, ArrayList<Member> assignedUsers, String groupName) {
+    public Task (String taskId, String taskName, String taskDescription,List<String> files, double ProgressPercent,String taskStartTime, String taskDueTime, ArrayList<Member> assignedUsers, String groupName) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.ProgressPercent = ProgressPercent;
+        this.taskStartTime = taskStartTime;
         this.taskDueTime = taskDueTime;
         this.assignedUsers = assignedUsers;
         this.groupName = groupName;
         this.files = files;
     }
 
-    public Task(String taskId, String taskName, String taskDescription, int status, int numberOfFiles, String taskDueTime ) {
+    public Task(String taskId, String taskName, String taskDescription, int status, int numberOfFiles,String taskStartTime, String taskDueTime ) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = status;
+        this.taskStartTime = taskStartTime;
         this.taskDueTime = taskDueTime;
         this.numberOfFiles = numberOfFiles;
     }
@@ -94,6 +99,10 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
+    public void setProgressPercent(double progressPercent) {
+        ProgressPercent = progressPercent;
+    }
+
     public double getProgressPercent() {
         return ProgressPercent;
     }
@@ -106,6 +115,13 @@ public class Task {
 //        return simpleDateFormat.format(taskDueTime);
 //    }
 
+    public String getTaskStartTime() {
+        return taskStartTime;
+    }
+
+    public void setTaskStartTime(String taskStartTime) {
+        this.taskStartTime = taskStartTime;
+    }
 
     public String getTaskDueTime() {
         return taskDueTime;

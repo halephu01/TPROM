@@ -3,6 +3,8 @@ package com.example.tprom.properties;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.errorprone.annotations.Var;
+
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +14,7 @@ public class Member implements Parcelable {
     private String role;
     private int avatar;
     private boolean isSelected;
+    private int complete;
 
     protected Member(Parcel in) {
         name = in.readString();
@@ -20,6 +23,7 @@ public class Member implements Parcelable {
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
+        map.put("complete", complete );
         return map;
     }
 
@@ -60,9 +64,18 @@ public class Member implements Parcelable {
         this.role = role;
     }
 
-    public Member(String name, boolean isSelected) {
+    public Member(String name,int complete, boolean isSelected) {
         this.name = name;
+        this.complete = complete;
         this.isSelected = isSelected;
+    }
+
+    public void setComplete(int complete) {
+        this.complete = complete;
+    }
+
+    public int getComplete() {
+        return complete;
     }
 
     public void setSelected(boolean selected) {

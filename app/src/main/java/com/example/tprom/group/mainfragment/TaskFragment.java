@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.tprom.MainActivity;
 import com.example.tprom.R;
+import com.example.tprom.RecyclerViewClickListener;
 import com.example.tprom.group.GroupItem;
 import com.example.tprom.group.adapters.TaskAdapter;
 import com.example.tprom.properties.Member;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TaskFragment extends Fragment {
+public class TaskFragment extends Fragment implements RecyclerViewClickListener{
     RecyclerView recyclerView;
     ArrayList<Task> tasks;
 
@@ -57,21 +58,22 @@ public class TaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv_description=view.findViewById(R.id.tv_description);
-        tv_groupName=view.findViewById(R.id.tv_groupName);
+        tv_description = view.findViewById(R.id.tv_description);
+        tv_groupName = view.findViewById(R.id.tv_groupName);
 
-        recyclerView=view.findViewById(R.id.task_rv);
-        isAdmin=true;
-        tasks=new ArrayList<>();
-        TaskAdapter taskAdapter=new TaskAdapter(this.getContext(),tasks,isAdmin);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),RecyclerView.VERTICAL,false));
+        recyclerView = view.findViewById(R.id.task_rv);
+        isAdmin = true;
+        tasks = new ArrayList<>();
+
+        TaskAdapter taskAdapter = new TaskAdapter(getContext(), tasks, false, (RecyclerViewClickListener) TaskFragment.this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(taskAdapter);
         taskAdapter.notifyDataSetChanged();
 
         if (getActivity() != null) {
             MainActivity mainActivity = (MainActivity) getActivity();
 
-            TextView tv_onTop  = mainActivity.findViewById(R.id.tv_TopMainText);
+            TextView tv_onTop = mainActivity.findViewById(R.id.tv_TopMainText);
             TextView tv_back = mainActivity.findViewById(R.id.btn_back);
             ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
 
@@ -114,6 +116,7 @@ public class TaskFragment extends Fragment {
             getUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 String username;
                 boolean isAdmin = false;
+
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -122,6 +125,7 @@ public class TaskFragment extends Fragment {
                     DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
                     groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         ArrayList<Member> members = new ArrayList<>();
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
@@ -155,21 +159,21 @@ public class TaskFragment extends Fragment {
                                                 members = task.getAssignedUsers();
                                                 int numberOfFiles = task.getFiles().size();
                                                 String dueTime = task.getTaskDueTime();
+                                                String startTime = task.getTaskStartTime();
                                                 int statusTask = task.getStatus();
                                                 double progressPercent = task.getProgressPercent();
 
                                                 // Kiểm tra quyền isAdmin mỗi khi thêm công việc vào danh sách
                                                 if (!finalIsAdmin) {
-                                                    tasks.add(new Task("1", nametask, description, statusTask, numberOfFiles, dueTime));
+                                                    tasks.add(new Task("1", nametask, description, statusTask, numberOfFiles,startTime, dueTime));
                                                 } else {
-                                                    tasks.add(new Task("1", nametask, description, progressPercent, dueTime, numberOfFiles, members));
+                                                    tasks.add(new Task("1", nametask, description, progressPercent,startTime, dueTime, numberOfFiles, members));
                                                 }
                                             }
                                         }
-                                        TaskAdapter taskAdapter=new TaskAdapter(getContext(),tasks,finalIsAdmin);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+                                        TaskAdapter taskAdapter = new TaskAdapter(getContext(), tasks, finalIsAdmin, (RecyclerViewClickListener) TaskFragment.this);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                                         recyclerView.setAdapter(taskAdapter);
-                                        // Gọi notifyDataSetChanged() ở đây để cập nhật RecyclerView
                                         taskAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -192,5 +196,28 @@ public class TaskFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        TaskDetailFragment taskDetailFragment = new TaskDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("taskID", tasks.get(position).getTaskId());
+        bundle.putString("taskName", tasks.get(position).getTaskName());
+        bundle.putString("taskDescription", tasks.get(position).getTaskDescription());
+        bundle.putString("taskStart", tasks.get(position).getTaskStartTime());
+        bundle.putString("taskDueTime", tasks.get(position).getTaskDueTime());
+        bundle.putInt("taskStatus", tasks.get(position).getStatus());
+        bundle.putDouble("taskProgress", tasks.get(position).getProgressPercent());
+
+        bundle.putString("groupName", tv_groupName.getText().toString());
+        bundle.putString("groupDescription", tv_description.getText().toString());
+        taskDetailFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_task, taskDetailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

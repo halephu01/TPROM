@@ -29,19 +29,20 @@
             android:lineHeight="16sp"
             android:fontFamily="@font/gilroy_medium"
             android:textColor="#292A2D"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/tv_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/gilroy_medium"
             android:lineHeight="16sp"
             android:lineSpacingExtra="-1sp"
-            android:fontFamily="@font/gilroy_medium"
             android:textColor="#8A8F9B"
-            android:layout_marginEnd="10dp"
-            />
+            android:textSize="12sp"/>
     </LinearLayout>
 
 

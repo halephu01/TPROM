@@ -182,8 +182,7 @@ public class NewTaskFragment extends Fragment {
                 if (position == 0) {
                     openFilePicker();
                 } else {
-                    String fileName = fileList.get(position - 1); // Trừ đi 1 vì đã thêm "Upload file" ở vị trí 0
-                    Toast.makeText(getContext(), "File: " + fileName, Toast.LENGTH_SHORT).show();
+                    String fileName = fileList.get(position - 1);
                 }
             }
         });
@@ -334,7 +333,7 @@ public class NewTaskFragment extends Fragment {
                         taskData.put("taskDueTime", duetime);
                         taskData.put("files", fileList);
                         taskData.put("assignedUsers", assignedUsersData);
-                        taskData.put("status", -1);
+                        taskData.put("status", 0);
                         taskData.put("progressPercent",0);
                         updateTask.updateChildren(taskData);
                     }

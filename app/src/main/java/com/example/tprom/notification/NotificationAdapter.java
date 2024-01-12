@@ -1,7 +1,6 @@
 package com.example.tprom.notification;
 
 import android.content.Context;
-import android.icu.text.CaseMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +33,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
         NotificationItem notificationItem= notificationItems.get(position);
-        holder.title.setText(notificationItem.Title);
-        holder.groupname.setText(notificationItem.GroupName);
-        holder.description.setText(notificationItem.Description);
-        holder.date.setText(notificationItem.getDate());
+        holder.taskName.setText(notificationItem.taskName);
+        holder.groupName.setText(notificationItem.groupName);
+        holder.taskDescription.setText(notificationItem.taskDescription);
+        holder.date.setText(notificationItem.getTaskDueTime());
     }
 
     @Override
@@ -46,13 +45,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     static class NotificationHolder extends RecyclerView.ViewHolder{
-        private TextView title, groupname, description, date;
+        private TextView taskName, groupName, taskDescription, date;
 
         public NotificationHolder(@NonNull View itemView) {
             super(itemView);
-            title=itemView.findViewById(R.id.notificationitem_tv_title);
-            groupname=itemView.findViewById(R.id.notificationitem_tv_groupname);
-            description=itemView.findViewById(R.id.notificationitem_tv_description);
+            taskName=itemView.findViewById(R.id.notificationitem_tv_title);
+            groupName=itemView.findViewById(R.id.notificationitem_tv_groupname);
+            taskDescription=itemView.findViewById(R.id.notificationitem_tv_description);
             date=itemView.findViewById(R.id.notificationitem_tv_time);
         }
     }

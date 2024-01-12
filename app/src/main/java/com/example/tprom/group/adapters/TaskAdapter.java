@@ -1,6 +1,8 @@
 package com.example.tprom.group.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tprom.R;
+import com.example.tprom.RecyclerViewClickListener;
+import com.example.tprom.group.GroupAdapter;
+import com.example.tprom.group.mainfragment.TaskFragment;
 import com.example.tprom.properties.Task;
 
 import java.util.ArrayList;
@@ -21,11 +26,19 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private Context context;
     private ArrayList<Task> tasks;
-    boolean isAdmin;
-    public TaskAdapter(Context context, ArrayList<Task> tasks,boolean isAdmin) {
+    private boolean isAdmin;
+    private RecyclerViewClickListener clickListener;
+
+    // Khởi tạo adapter và truyền RecyclerViewClickListener
+    public TaskAdapter(Context context, ArrayList<Task> tasks, boolean isAdmin, RecyclerViewClickListener clickListener) {
         this.context = context;
         this.tasks = tasks;
-        this.isAdmin=isAdmin;
+        this.isAdmin = isAdmin;
+        this.clickListener = clickListener;
+    }
+
+    public void setClickListener(RecyclerViewClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -35,7 +48,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return new TaskHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskHolder holder, @SuppressLint("RecyclerView") int position) {
         Task task=tasks.get(position);
         holder.Title.setText(task.getTaskName());
         holder.Description.setText(task.getTaskDescription());
@@ -44,6 +57,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.MiniAvatar.setAdapter(miniMemberAdapter);
         holder.MiniAvatar.setLayoutManager(new LinearLayoutManager(this.context,RecyclerView.HORIZONTAL,false));
         miniMemberAdapter.notifyDataSetChanged();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onItemClick(v, position);
+                }
+            }
+        });
 
         //Neu co tep dinh kem thi hien thi so luong
         if(task.getNumberOfFiles()>0){
@@ -65,7 +87,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
         else if(task.getStatus()==1){
             holder.background.setBackgroundResource(R.drawable.shape_task_completed);
-
         }
     }
 
@@ -74,12 +95,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return tasks.size();
     }
 
-    static class TaskHolder extends RecyclerView.ViewHolder{
+    static class TaskHolder extends RecyclerView.ViewHolder {
         TextView Title,Description,NumberOfAttachment,Time,ProgressPercent;
         LinearLayout ProgressBarLayout;
         ProgressBar progressBar;
         RecyclerView MiniAvatar;
         ConstraintLayout background;
+
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             Title=itemView.findViewById(R.id.taskitem_title);

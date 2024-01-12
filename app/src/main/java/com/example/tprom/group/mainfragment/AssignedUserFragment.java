@@ -160,6 +160,7 @@ public class AssignedUserFragment extends Fragment implements OnCheckedChangeLis
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 for (int i = 0; i < memberList.size(); i++) {
+
                     memberList.get(i).setSelected(isChecked);
                 }
                 finalAssignedUserAdapter.notifyDataSetChanged();
@@ -172,6 +173,7 @@ public class AssignedUserFragment extends Fragment implements OnCheckedChangeLis
         selectedUsers.clear(); // Xóa danh sách hiện tại trước khi thêm
         for (Member member : memberList) {
             if (member.isSelected()) {
+                member.setComplete(0);
                 selectedUsers.add(member);
             }
         }
