@@ -9,17 +9,17 @@
         android:id="@+id/avatarUser_complete"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/mem"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/mem" />
 
     <TextView
         android:id="@+id/tv_name_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingLeft="10dp"
         android:layout_weight="3"
         android:fontFamily="@font/gilroy_medium"
+        android:paddingLeft="10dp"
         android:textSize="20sp" />
 
     <TextView
@@ -29,6 +29,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/complete"
+        android:id="@+id/tv_complete"
         android:textAppearance="@style/complete"
          />
     <TextView

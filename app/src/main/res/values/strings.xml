@@ -13,4 +13,6 @@
     <string name="designing_a">Designing a abcxyz</string>
     <string name="lorem_ipsum">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut...Read more</string>
     <string name="complete">Complete</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

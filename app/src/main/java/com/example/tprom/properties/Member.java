@@ -7,6 +7,7 @@ import com.google.errorprone.annotations.Var;
 
 import java.security.PublicKey;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Member implements Parcelable {
@@ -15,9 +16,11 @@ public class Member implements Parcelable {
     private int avatar;
     private boolean isSelected;
     private int complete;
+    private List<String> file;
 
     protected Member(Parcel in) {
         name = in.readString();
+        complete = in.readInt();
     }
 
     public Map<String, Object> toMap() {
@@ -42,6 +45,7 @@ public class Member implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
+        dest.writeInt(complete);
     }
 
     @Override
@@ -68,6 +72,21 @@ public class Member implements Parcelable {
         this.name = name;
         this.complete = complete;
         this.isSelected = isSelected;
+    }
+
+    public Member(String name,int complete, boolean isSelected, List<String> file) {
+        this.name = name;
+        this.complete = complete;
+        this.isSelected = isSelected;
+        this.file = file;
+    }
+
+    public void setFile(List<String> file) {
+        this.file = file;
+    }
+
+    public List<String> getFile() {
+        return file;
     }
 
     public void setComplete(int complete) {

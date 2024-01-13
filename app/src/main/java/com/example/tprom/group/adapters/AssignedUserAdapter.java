@@ -46,14 +46,11 @@ public class AssignedUserAdapter extends RecyclerView.Adapter<AssignedUserAdapte
 
     @Override
     public void onBindViewHolder(@NonNull AvatarViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        // Example code, make sure to adapt it to your actual code
         TextView textView = holder.itemView.findViewById(R.id.nameTextView);
 
-        // Check if textView is null before calling setText
         if (textView != null) {
             textView.setText(members.get(position).getName());
         } else {
-            // Log a message or handle the case where textView is null
         }
 
         CheckBox chb_selectUser = holder.itemView.findViewById(R.id.checkbox_select_user);
@@ -77,7 +74,6 @@ public class AssignedUserAdapter extends RecyclerView.Adapter<AssignedUserAdapte
     public List<String> getSelectedUsers() {
         List<String> selectedUsers = new ArrayList<>();
 
-        // Kiểm tra xem members có được khởi tạo hay không
         if (members != null) {
             for (Member member : members) {
                 if (member.isSelected()) {

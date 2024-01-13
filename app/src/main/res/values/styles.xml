@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Big_Tile">
         <item name="android:textSize">36sp</item>
         <item name="android:textColor">#000000</item>
@@ -29,55 +30,71 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#676767</item>
     </style>
+
     <style name="createclick">
         <item name="android:textSize">15sp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
     <style name="group_name">
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">#303030</item>
     </style>
+
     <style name="members">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#303030</item>
     </style>
+
     <style name="label">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#292A2D</item>
     </style>
+
     <style name="designing_a">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">#303030</item>
     </style>
+
     <style name="file_2_">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#292A2D</item>
     </style>
+
     <style name="start">
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">#8A8F9B</item>
     </style>
+
     <style name="pm">
         <item name="android:textSize">16sp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">#292A2D</item>
     </style>
+
     <style name="lorem_ipsum">
         <item name="android:textSize">14sp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">#292A2D</item>
     </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="complete">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#303030</item>
+    </style>
+
+    <style name="Widget.Theme.TPROM.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
 </resources>

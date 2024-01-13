@@ -171,6 +171,7 @@ public class GroupDetailsFragment extends Fragment implements RecyclerViewClickL
                             DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
                             taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 ArrayList<Member> assignedUser = new ArrayList<>();
+                                List<String> files;
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
@@ -183,6 +184,8 @@ public class GroupDetailsFragment extends Fragment implements RecyclerViewClickL
                                                 String description = task.getTaskDescription();
                                                 assignedUser = task.getAssignedUsers();
                                                 int numberOfFiles = task.getFiles().size();
+
+
                                                 String dueTime = task.getTaskDueTime();
                                                 String startTime = task.getTaskStartTime();
                                                 int statusTask = task.getStatus();
@@ -203,7 +206,6 @@ public class GroupDetailsFragment extends Fragment implements RecyclerViewClickL
                                         taskAdapter.notifyDataSetChanged();
                                     }
                                 }
-
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
@@ -394,7 +396,6 @@ public class GroupDetailsFragment extends Fragment implements RecyclerViewClickL
         bundle.putString("taskDueTime", tasks.get(position).getTaskDueTime());
         bundle.putInt("taskStatus", tasks.get(position).getStatus());
         bundle.putDouble("taskProgress", tasks.get(position).getProgressPercent());
-
         bundle.putString("groupName", GroupName.getText().toString());
         bundle.putString("groupDescription", Description.getText().toString());
         taskDetailFragment.setArguments(bundle);

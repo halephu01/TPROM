@@ -49,7 +49,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskDetailFragment extends Fragment {
-    TextView taskName, taskStart, taskEnd, taskReadmore, tv_groupName, tv_description, tv_edit, tv_edit_ad, tv_complete, tv_percent, tv_infoFile;
+    TextView taskName, taskStart, taskEnd, taskReadmore, tv_groupName, tv_description, tv_edit,
+            tv_edit_ad, tv_complete, tv_percent, tv_infoFile, tv_progressbar;
     RecyclerView rc_file,rc_upload;
     RelativeLayout rl_progress, rl_upload;
     ProgressBar progressBar;
@@ -91,6 +92,7 @@ public class TaskDetailFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setMax(100);
         tv_percent = view.findViewById(R.id.percent);
+        tv_progressbar = view.findViewById(R.id.tv_progressbar);
 
         tv_complete = view.findViewById(R.id.tv_complete);
         rc_upload = view.findViewById(R.id.recyclerview_upload_taskinfo);
@@ -139,8 +141,10 @@ public class TaskDetailFragment extends Fragment {
             taskStart.setText(taskstart);
             taskEnd.setText(taskend);
             taskReadmore.setText(taskdescription);
-            progressBar.setProgress(progress.intValue());
+            progress= progress*100;
             tv_percent.setText(Integer.toString(progress.intValue()) +"%");
+            int percent = Integer.parseInt(Integer.toString(progress.intValue()));
+            progressBar.setProgress(percent);
 
             tv_groupName.setText(bundle.getString("groupName"));
             tv_description.setText(bundle.getString("groupDescription"));
@@ -208,7 +212,6 @@ public class TaskDetailFragment extends Fragment {
             });
         }
 
-//        final String[] fileInfo = new String[1];
         DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
         taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
             List<String>fileList;
@@ -225,7 +228,6 @@ public class TaskDetailFragment extends Fragment {
                                 fileList = task.getFiles();
                                 if (fileList.size() > 0) {
 
-
                                     FileTaskInfoAdapter fileTaskInfoAdapter = new FileTaskInfoAdapter(getContext(), fileList);
                                     rc_file.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                                     rc_file.setAdapter(fileTaskInfoAdapter);
@@ -236,36 +238,118 @@ public class TaskDetailFragment extends Fragment {
                             }
                         }
                     }
-//                    String file = "File (" + String.valueOf(fileList.size()) + ")";
-//                    fileInfo[0] = file;
-
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý khi có lỗi
+
             }
         });
-
     }
 
     public void canCompleteOrEditTask(){
+        tv_progressbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserComplete userComplete = new UserComplete();
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", tv_groupName.getText().toString());
+                bundle.putString("taskName", taskName.getText().toString());
+                bundle.putString("taskDescription", taskReadmore.getText().toString());
+                bundle.putString("groupDescription", tv_description.getText().toString());
+                bundle.putString("taskStartTime", taskStart.getText().toString());
+                bundle.putString("tastDueTime", taskEnd.getText().toString());
+                bundle.putDouble("taskProgress", progressBar.getProgress());
+
+                userComplete.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_task_info, userComplete)
+                        .commit();
+            }
+        });
+
         tv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditTaskFragment editTaskFragment = new EditTaskFragment();
 
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", tv_groupName.getText().toString());
+                bundle.putString("groupDescription", tv_description.getText().toString());
+                bundle.putString("taskName", taskName.getText().toString());
+                bundle.putString("taskDescription", taskReadmore.getText().toString());
+                editTaskFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_task_info, editTaskFragment)
+                        .commit();
+
+                Log.d("taskName", taskName.getText().toString());
             }
         });
 
         tv_edit_ad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
+                taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot taskSnapshot : dataSnapshot.getChildren()) {
+                            Task task = taskSnapshot.getValue(Task.class);
+                            if (task != null && task.getGroupName().equals(tv_groupName.getText().toString())
+                                    && task.getTaskName().equals(taskName.getText().toString())) {
 
+                                DatabaseReference updateTaskRef = FirebaseDatabase.getInstance().getReference("tasks").child(taskSnapshot.getKey());
+                                int status;
+                                double progress = task.getProgressPercent();
+                                if(progress==1){
+                                    status = 1;
+                                }
+                                else {
+                                    status = -1;
+                                }
+                                updateTaskRef.child("status").setValue(status);
+
+                                DataSnapshot assignedUsersSnapshot = taskSnapshot.child("assignedUsers");
+                                for (DataSnapshot memberSnapshot : assignedUsersSnapshot.getChildren()) {
+                                    Member member = memberSnapshot.getValue(Member.class);
+                                    String memberKey = memberSnapshot.getKey();
+
+                                    if (member != null) {
+                                        if (member.getComplete() != 1) {
+                                            member.setComplete(0);
+                                            DatabaseReference update = taskRef.child(taskSnapshot.getKey()).child("assignedUsers").child(memberKey);
+                                            update.setValue(member);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Xử lý onCancelled
+                    }
+                });
+
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", tv_groupName.getText().toString());
+                bundle.putString("groupDescription", tv_description.getText().toString());
+                GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+                groupDetailsFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_task_info, groupDetailsFragment)
+                        .commit();
             }
         });
-
-
     }
 
     public void canUploadTask(){
@@ -280,7 +364,6 @@ public class TaskDetailFragment extends Fragment {
                     openFilePicker();
                 } else {
                     String fileName = fileList.get(position - 1);
-                    Toast.makeText(getContext(), "File: " + fileName, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -288,20 +371,78 @@ public class TaskDetailFragment extends Fragment {
         tv_complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("tasks");
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    String uid = user.getUid();
+                    DatabaseReference getUser = FirebaseDatabase.getInstance().getReference("users").child(uid).child("username");
+                    getUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                        String username;
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                username = dataSnapshot.getValue(String.class);
 
-                Map<String, Object> updates = new HashMap<>();
+                                DatabaseReference taskRef = FirebaseDatabase.getInstance().getReference("tasks");
+                                taskRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot taskSnapshot : dataSnapshot.getChildren()) {
+                                            Task task = taskSnapshot.getValue(Task.class);
+                                            ArrayList<Member> members = new ArrayList<>();
+                                            if (task != null && task.getGroupName().equals(tv_groupName.getText().toString())
+                                                    && task.getTaskName().equals(taskName.getText().toString())) {
 
-                databaseRef.updateChildren(updates)
-                        .addOnSuccessListener(aVoid -> {
-                            // Xử lý khi cập nhật thành công
-                            Log.d("FirebaseUpdate", "Update successful");
-                        })
-                        .addOnFailureListener(e -> {
-                            // Xử lý khi cập nhật thất bại
-                            Log.e("FirebaseUpdate", "Update failed", e);
-                        });
+                                                DataSnapshot assignedUsersSnapshot = taskSnapshot.child("assignedUsers");
+                                                for (DataSnapshot memberSnapshot : assignedUsersSnapshot.getChildren()) {
+                                                    Member member = memberSnapshot.getValue(Member.class);
 
+                                                    if (member != null && member.getName().equals(username)) {
+                                                        String memberKey = memberSnapshot.getKey();
+                                                        Log.d("memberKey", memberKey);
+
+                                                        member.setComplete(1);
+                                                        member.setFile(fileList);
+
+                                                        String taskKey = taskSnapshot.getKey();
+
+                                                        DatabaseReference updateTaskRef = taskRef.child(taskKey).child("assignedUsers").child(memberKey);
+                                                        updateTaskRef.setValue(member);
+
+                                                        break;
+                                                    }
+                                                }
+                                                members = task.getAssignedUsers();
+                                                DatabaseReference updateTaskRef = taskRef.child(taskSnapshot.getKey());
+                                                double progress = (double) 1/members.size();
+                                                updateTaskRef.child("progressPercent").setValue(progress);
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Xử lý onCancelled
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("groupName", tv_groupName.getText().toString());
+                    bundle.putString("groupDescription", tv_description.getText().toString());
+                    GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+                    groupDetailsFragment.setArguments(bundle);
+
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_task_info, groupDetailsFragment)
+                            .commit();
+                }
             }
         });
     }

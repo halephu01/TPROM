@@ -91,7 +91,9 @@ public class AssignedUserFragment extends Fragment implements OnCheckedChangeLis
 
                             for (int i = 0; i < members.size(); i++) {
                                 String name = members.get(i).getName();
-                                memberList.add(new Member(name));
+                                String role = members.get(i).getRole();
+                                if(role.equals("member"))
+                                    memberList.add(new Member(name));
                             }
                             break;
                         }
