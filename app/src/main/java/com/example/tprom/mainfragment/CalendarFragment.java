@@ -185,7 +185,8 @@ public class CalendarFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         handleTextViewClick((TextView) v);
-                        v.setBackgroundColor(getResources().getColor(R.color.blue2));
+//                        v.setBackgroundColor(getResources().getColor(R.color.blue2));
+                        v.setBackground(getResources().getDrawable(R.drawable.shape_10));
                         if (lastClickedTextView != null && lastClickedTextView != v) {
                             lastClickedTextView.setBackgroundColor(Color.TRANSPARENT); // hoặc màu nền mặc định
                         }
@@ -259,7 +260,9 @@ public class CalendarFragment extends Fragment {
             todayCalendar.set(Calendar.MILLISECOND, 0);
 
             if (currentCalendar.getTime().equals(todayCalendar.getTime())) {
-                dayTextViews[i].setBackgroundResource(R.color.yellow);
+//                dayTextViews[i].setBackgroundResource(R.color.yellow);
+                dayTextViews[i].setBackgroundResource(R.drawable.shape_7);
+
             } else {
                 dayTextViews[i].setBackgroundResource(0);
             }
@@ -277,12 +280,11 @@ public class CalendarFragment extends Fragment {
 
                 Calendar startCalendar = Calendar.getInstance();
                 startCalendar.setTime(startTime);
-                int startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
 
                 Calendar dueCalendar = Calendar.getInstance();
                 dueCalendar.setTime(dueTime);
                 int dueDay = dueCalendar.get(Calendar.DAY_OF_MONTH);
-                    if (dueDay >= clickedDay && clickedDay >= startDay) {
+                    if (dueDay == clickedDay) {
                         tasksToShow.add(task);
                     }
             } catch (ParseException e) {

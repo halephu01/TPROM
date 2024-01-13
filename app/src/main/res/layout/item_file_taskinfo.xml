@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -41,7 +41,7 @@
             android:fontFamily="@font/gilroy_medium"
             android:lineHeight="16sp"
             android:lineSpacingExtra="-1sp"
-            android:textColor="#8A8F9B"
+            android:textColor="#303030"
             android:textSize="12sp"/>
     </LinearLayout>
 
