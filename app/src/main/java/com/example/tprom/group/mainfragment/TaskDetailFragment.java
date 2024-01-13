@@ -61,7 +61,6 @@ public class TaskDetailFragment extends Fragment {
 
     private static final int REQUEST_CODE = 1;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,29 +104,7 @@ public class TaskDetailFragment extends Fragment {
         recyclerUpload.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
 
-        if (getActivity() != null) {
-            MainActivity mainActivity = (MainActivity) getActivity();
 
-            TextView tv_onTop  = mainActivity.findViewById(R.id.tv_TopMainText);
-            TextView tv_back = mainActivity.findViewById(R.id.btn_back);
-            ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
-
-            tv_onTop.setText("Task");
-            tv_back.setVisibility(View.VISIBLE);
-            img_avatar.setVisibility(View.GONE);
-            tv_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragmentDetailGroup, new GroupFragment())
-                            .commit();
-                    tv_onTop.setText("Details");
-                    tv_back.setVisibility(View.GONE);
-                    img_avatar.setVisibility(View.VISIBLE);
-                }
-            });
-        }
 
         Bundle bundle = getArguments();
         if (bundle != null){
@@ -136,6 +113,39 @@ public class TaskDetailFragment extends Fragment {
             String taskend = bundle.getString("taskDueTime");
             String taskdescription = bundle.getString("taskDescription");
             Double progress = bundle.getDouble("taskProgress");
+            String groupName = bundle.getString("groupName");
+            String groupDescription = bundle.getString("groupDescription");
+
+            if (getActivity() != null) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+
+                TextView tv_onTop  = mainActivity.findViewById(R.id.tv_TopMainText);
+                TextView tv_back = mainActivity.findViewById(R.id.btn_back);
+                ImageView img_avatar = mainActivity.findViewById(R.id.iv_TopMainAvatar);
+
+                tv_onTop.setText("Task");
+                tv_back.setVisibility(View.VISIBLE);
+                img_avatar.setVisibility(View.GONE);
+                tv_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("groupName", groupName);
+                        bundle.putString("groupDescription", groupDescription);
+
+                        GroupDetailsFragment groupDetailsFragment = new GroupDetailsFragment();
+                        groupDetailsFragment.setArguments(bundle);
+
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragmentDetailGroup, groupDetailsFragment)
+                                .commit();
+                        tv_onTop.setText("Details");
+                        tv_back.setVisibility(View.GONE);
+                        img_avatar.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
 
             taskName.setText(taskname);
             taskStart.setText(taskstart);
@@ -146,8 +156,8 @@ public class TaskDetailFragment extends Fragment {
             int percent = Integer.parseInt(Integer.toString(progress.intValue()));
             progressBar.setProgress(percent);
 
-            tv_groupName.setText(bundle.getString("groupName"));
-            tv_description.setText(bundle.getString("groupDescription"));
+            tv_groupName.setText(groupName);
+            tv_description.setText(groupDescription);
         }
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -255,12 +265,13 @@ public class TaskDetailFragment extends Fragment {
                 UserComplete userComplete = new UserComplete();
                 Bundle bundle = new Bundle();
                 bundle.putString("groupName", tv_groupName.getText().toString());
-                bundle.putString("taskName", taskName.getText().toString());
-                bundle.putString("taskDescription", taskReadmore.getText().toString());
                 bundle.putString("groupDescription", tv_description.getText().toString());
-                bundle.putString("taskStartTime", taskStart.getText().toString());
-                bundle.putString("tastDueTime", taskEnd.getText().toString());
-                bundle.putDouble("taskProgress", progressBar.getProgress());
+                bundle.putString("taskName", taskName.getText().toString());
+                bundle.putString("taskStart", taskStart.getText().toString());
+                bundle.putString("taskDueTime", taskEnd.getText().toString());
+                bundle.putString("taskDescription", taskReadmore.getText().toString());
+                Double progress = Double.parseDouble(tv_percent.getText().toString().replace("%",""));
+                bundle.putDouble("taskProgress", (double) progress/100);
 
                 userComplete.setArguments(bundle);
 

@@ -59,12 +59,12 @@ public class UserComplete extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
+            String taskname = bundle.getString("taskName");
+            String taskstart = bundle.getString("taskStart");
+            String taskend = bundle.getString("taskDueTime");
+            String taskdescription = bundle.getString("taskDescription");
+            Double progress = bundle.getDouble("taskProgress");
             String groupName = bundle.getString("groupName");
-            String taskName = bundle.getString("taskName");
-            String taskDescription = bundle.getString("taskDescription");
-            String taskDueTime = bundle.getString("taskDueTime");
-            String taskStartTime = bundle.getString("taskStartTime");
-            String taskProgress = bundle.getString("taskProgress");
             String groupDescription = bundle.getString("groupDescription");
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("tasks");
@@ -80,7 +80,7 @@ public class UserComplete extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Task task = dataSnapshot.getValue(Task.class);
 
-                        if (task.getGroupName().equals(groupName) && task.getTaskName().equals(taskName)) {
+                        if (task.getGroupName().equals(groupName) && task.getTaskName().equals(taskname)) {
                             ArrayList<Member> taskMembers = task.getAssignedUsers();
                             for (Member mem : taskMembers) {
                                 if (mem.getComplete() == 1) {
@@ -125,12 +125,13 @@ public class UserComplete extends Fragment {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString("groupName", groupName);
-                        bundle.putString("taskName", taskName);
-                        bundle.putString("taskDescription", taskDescription);
-                        bundle.putString("taskDueTime", taskDueTime);
-                        bundle.putString("taskStartTime", taskStartTime);
-                        bundle.putDouble("taskProgress", Double.parseDouble(taskProgress));
                         bundle.putString("groupDescription", groupDescription);
+                        bundle.putString("taskName", taskname);
+                        bundle.putString("taskStart", taskstart);
+                        bundle.putString("taskDueTime", taskend);
+                        bundle.putString("taskDescription", taskdescription);
+                        bundle.putString("groupDescription", groupDescription);
+                        bundle.putDouble("taskProgress", progress);
 
                         TaskDetailFragment taskDetailFragment = new TaskDetailFragment();
                         taskDetailFragment.setArguments(bundle);

@@ -259,7 +259,7 @@ public class CalendarFragment extends Fragment {
             todayCalendar.set(Calendar.MILLISECOND, 0);
 
             if (currentCalendar.getTime().equals(todayCalendar.getTime())) {
-                dayTextViews[i].setBackgroundResource(R.drawable.highlight_background);
+                dayTextViews[i].setBackgroundResource(R.color.yellow);
             } else {
                 dayTextViews[i].setBackgroundResource(0);
             }
