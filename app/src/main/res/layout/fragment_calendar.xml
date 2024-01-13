@@ -19,7 +19,7 @@
         android:layout_marginHorizontal="10dp"
         >
         <TextView
-            android:id="@+id/calendar_monday"
+            android:id="@+id/calendar_day_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Mo\n11"
@@ -30,7 +30,7 @@
             android:layout_weight="1"
 />
         <TextView
-            android:id="@+id/calendar_tuesday"
+            android:id="@+id/calendar_day_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Tu\n12"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
 />
         <TextView
-            android:id="@+id/calendar_wednesday"
+            android:id="@+id/calendar_day_3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="We\n13"
@@ -52,7 +52,7 @@
             android:layout_weight="1"
 />
         <TextView
-            android:id="@+id/calendar_thursday"
+            android:id="@+id/calendar_day_4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Th\n14"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
 />
         <TextView
-            android:id="@+id/calendar_friday"
+            android:id="@+id/calendar_day_5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Fr\n15"
@@ -74,7 +74,7 @@
             android:layout_weight="1"
 />
         <TextView
-            android:id="@+id/calendar_saturday"
+            android:id="@+id/calendar_day_6"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Sa\n16"
@@ -84,7 +84,7 @@
             android:textColor="@color/black"
             android:layout_weight="1"
 />        <TextView
-        android:id="@+id/calendar_sunday"
+        android:id="@+id/calendar_day_7"
         android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Su\n 17"

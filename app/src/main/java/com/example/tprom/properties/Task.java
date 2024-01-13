@@ -54,6 +54,19 @@ public class Task {
         this.taskDueTime = taskDueTime;
         this.numberOfFiles = numberOfFiles;
     }
+    public Task(String taskName, String taskDescription, int numberOfFiles, String taskDueTime) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskDueTime = taskDueTime;
+        this.numberOfFiles = numberOfFiles;
+    }
+    public Task(String taskName, String taskDescription, int numberOfFiles,String taskStartTime, String taskDueTime) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskStartTime = taskStartTime;
+        this.taskDueTime = taskDueTime;
+        this.numberOfFiles = numberOfFiles;
+    }
 
     public void setFiles(List<String> files) {
         this.files = files;

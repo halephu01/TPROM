@@ -36,7 +36,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         this.isAdmin = isAdmin;
         this.clickListener = clickListener;
     }
-
+    public TaskAdapter(Context context, ArrayList<Task> tasks, boolean isAdmin) {
+        this.context = context;
+        this.tasks = tasks;
+        this.isAdmin = isAdmin;
+    }
     public void setClickListener(RecyclerViewClickListener clickListener) {
         this.clickListener = clickListener;
     }
